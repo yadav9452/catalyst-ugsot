@@ -1,4 +1,4 @@
-# Catalyst · Lecture 1 — What Is a Computer and How It Works
+# Catalyst · Lecture  — What Is a Computer and How It Works
 
 An interactive, animated lesson page for the Catalyst Web Essentials course (upGrad School of Technology).
 Built with React, Vite and Framer Motion.
