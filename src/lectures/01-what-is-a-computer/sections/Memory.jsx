@@ -1,6 +1,8 @@
 import { AnimatePresence, motion } from 'framer-motion'
 import { useState } from 'react'
-import { Callout, Code, PauseBadge, Reveal, Section } from './ui'
+import { Callout, Code, PauseBadge, Reveal, Section, Step } from '../../../design-system'
+import { Cupboard, Desk } from '../../../design-system/illustrations'
+import { photos } from '../images'
 
 function PowerCutSimulator() {
   const [text, setText] = useState('My first web page idea: a portfolio with...')
@@ -144,13 +146,35 @@ export default function Memory() {
       <Section
         id="storage"
         eyebrow="Step 04 · Storage"
-        title="RAM vs storage: the power-cut test"
+        title="RAM vs storage: desk vs cupboard"
         intro="RAM is short-term memory: fast, but cleared when the power goes off. Storage keeps your files permanently."
+        steps={4}
       >
-        <Reveal>
+        <div className="analogy">
+          <Step n={1} className="analogy-card">
+            <div className="analogy-art">
+              <img className="analogy-photo" src={photos.ram} alt="RAM sticks" />
+              <span aria-hidden="true">=</span>
+              <Desk size={110} />
+            </div>
+            <h3>RAM is your desk</h3>
+            <p>What you’re working on right now sits here. Very fast to reach, but cleared every time the power goes off.</p>
+          </Step>
+          <Step n={2} className="analogy-card">
+            <div className="analogy-art">
+              <img className="analogy-photo" src={photos.ssd} alt="SSDs: a 2.5-inch SATA drive and two M.2 NVMe drives" />
+              <span aria-hidden="true">=</span>
+              <Cupboard size={110} />
+            </div>
+            <h3>Storage is your cupboard</h3>
+            <p>Files you’ve saved are kept here: photos, apps, your code. Slower to reach, but nothing is lost when you switch off.</p>
+          </Step>
+        </div>
+        <Step n={3}>
+          <h3 className="sub">Try it: the power-cut test</h3>
           <PowerCutSimulator />
-        </Reveal>
-        <Callout label="Why it matters">Unsaved work lives only in RAM, so a power cut loses it. Pressing Ctrl + S (Cmd + S on a Mac) copies it to storage.</Callout>
+        </Step>
+        <Callout label="Why it matters" step={4}>Unsaved work lives only in RAM, so a power cut loses it. Pressing Ctrl + S (Cmd + S on a Mac) copies it to storage.</Callout>
       </Section>
 
       <Section id="walkthrough" eyebrow="Putting it together" title="Walkthrough: adding two numbers" intro="Change the numbers and press Run. Watch each IPOS step light up next to the real JavaScript." tone="alt">

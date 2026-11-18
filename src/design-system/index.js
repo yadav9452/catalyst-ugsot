@@ -1,0 +1,10 @@
+// Everything a lecture needs, from one import:
+//   import { Section, Step, Reveal, Callout, Code, Figure, PauseBadge } from '../../design-system'
+//   import { Laptop, Cpu } from '../../design-system/illustrations'
+export { Reveal, Step, Section, Callout, Code, CopyButton, PauseBadge, Figure } from './primitives'
+export { WhyItMatters, Recap, Quiz } from './WrapUp'
+export { useStep, useGuided } from './guided'
+export { default as Illo } from './Illo'
+export { default as LectureHero } from './LectureHero'
+export { default as LectureLayout } from './LectureLayout'
+export { default as RecordingControls } from './RecordingControls'

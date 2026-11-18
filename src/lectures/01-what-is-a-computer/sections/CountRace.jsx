@@ -1,6 +1,7 @@
 import { motion } from 'framer-motion'
 import { useEffect, useRef, useState } from 'react'
-import { Code, CopyButton, Reveal, Section } from './ui'
+import { Code, CopyButton, Section, Step } from '../../../design-system'
+import { Clock, Instructions, Laptop, Person } from '../../../design-system/illustrations'
 
 const TARGET = 100_000_000
 const demoCode = [
@@ -10,9 +11,9 @@ const demoCode = [
 ]
 
 const problems = [
-  ['⏱', 'It takes forever', 'At one number per second, non-stop, it’s over 3 years.'],
-  ['⚠', 'You lose count', 'Somewhere around 473,812, you’ll slip and start again.'],
-  ['↻', 'It gets boring', 'Repeating the same step millions of times wears anyone out.'],
+  [Clock, 'It takes forever', 'At one number per second, non-stop, it’s over 3 years.'],
+  [Instructions, 'You lose count', 'Somewhere around 473,812, you’ll slip and start again.'],
+  [Person, 'It gets boring', 'Repeating the same step millions of times wears anyone out.'],
 ]
 
 function countWithComputer() {
@@ -55,10 +56,12 @@ export default function CountRace() {
       title="Count to 100,000,000. Ready?"
       intro="Counting to 10 takes a few seconds. Let’s race your brain against your computer on something bigger."
       tone="red"
+      steps={6}
     >
-      <div className="race">
+      <Step n={1} className="race">
         <div className="race-lane">
           <div className="race-label">
+            <span className="race-avatar"><Person size={44} /></span>
             <strong>You</strong>
             <span>one number per second</span>
           </div>
@@ -69,6 +72,7 @@ export default function CountRace() {
         </div>
         <div className="race-lane">
           <div className="race-label">
+            <span className="race-avatar"><Laptop size={44} /></span>
             <strong>Computer</strong>
             <span>this browser, right now</span>
           </div>
@@ -111,20 +115,20 @@ export default function CountRace() {
             </div>
           </motion.div>
         )}
-      </div>
+      </Step>
 
       <div className="card-grid three">
-        {problems.map(([icon, t, d], i) => (
-          <Reveal key={t} className="card card-on-red" delay={i * 0.1}>
-            <span className="card-icon" aria-hidden="true">{icon}</span>
+        {problems.map(([Icon, t, d], i) => (
+          <Step key={t} n={i + 2} className="card card-on-red problem" delay={i * 0.1}>
+            <span className="problem-art"><Icon size={64} /></span>
             <h3>{t}</h3>
             <p>{d}</p>
-          </Reveal>
+          </Step>
         ))}
       </div>
-      <Reveal as="p" className="punchline">Slow, error-prone, repetitive work: exactly what computers are built for.</Reveal>
+      <Step n={5} as="p" className="punchline">Slow, error-prone, repetitive work: exactly what computers are built for.</Step>
 
-      <Reveal className="try-console">
+      <Step n={6} className="try-console">
         <div>
           <h3>Try it in your own browser</h3>
           <ol>
@@ -138,7 +142,7 @@ export default function CountRace() {
           <Code lines={demoCode} />
           <CopyButton text={demoCode.join('\n')} />
         </div>
-      </Reveal>
+      </Step>
     </Section>
   )
 }

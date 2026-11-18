@@ -1,6 +1,6 @@
 import { AnimatePresence, motion } from 'framer-motion'
 import { useEffect, useRef, useState } from 'react'
-import { PauseBadge, Reveal, Section } from './ui'
+import { Illo, PauseBadge, Reveal, Section, Step, useStep } from '../../../design-system'
 
 const files = [
   { name: 'index.html', type: 'document' },
@@ -10,9 +10,16 @@ const files = [
 ]
 
 // phase: idle → request → server → response → done
+const PHASES = ['idle', 'request', 'server', 'response', 'done']
+const fixedTimes = [180, 40, 25, 60]
+
 function ClientServer() {
-  const [phase, setPhase] = useState('idle')
-  const [log, setLog] = useState([])
+  const [localPhase, setPhase] = useState('idle')
+  const [localLog, setLog] = useState([])
+  // Guided mode: the instructor steps through request → server → response → page (steps 1–4).
+  const { guided, step } = useStep()
+  const phase = guided ? PHASES[Math.min(step, 4)] : localPhase
+  const log = guided ? (step >= 3 ? files.map((f, i) => ({ ...f, ms: fixedTimes[i] })) : []) : localLog
   const timers = useRef([])
 
   useEffect(() => () => timers.current.forEach(clearTimeout), [])
@@ -91,7 +98,7 @@ function ClientServer() {
       </div>
 
       <div className="cs-controls">
-        <button type="button" className="btn btn-primary" onClick={go} disabled={phase !== 'idle' && phase !== 'done'}>
+        <button type="button" className="btn btn-primary" onClick={go} disabled={guided || (phase !== 'idle' && phase !== 'done')}>
           {phase === 'done' ? '↻ Send it again' : '➜ Send request'}
         </button>
         <p className="cs-status" aria-live="polite">
@@ -129,25 +136,32 @@ export default function Servers() {
         eyebrow="The most important one for you"
         title="Servers: the computers behind every website"
         intro="A server is a computer that provides data or services to other computers, called clients. When you open a website, your browser is the client."
+        steps={7}
       >
         <Reveal>
           <ClientServer />
         </Reveal>
         <div className="card-grid three">
           {[
-            ['Runs 24/7', 'So websites are always available'],
-            ['Serves many clients', 'Thousands of browsers at the same time'],
-            ['Lives in data centers', 'Buildings full of servers, cooled and powered round the clock'],
-          ].map(([t, d], i) => (
-            <Reveal key={t} className="card" delay={i * 0.08}>
+            ['Runs 24/7', 'So websites are always available', 'Clock'],
+            ['Serves many clients', 'Thousands of browsers at the same time', 'Server'],
+            ['Lives in data centers', 'Buildings full of servers, cooled and powered round the clock', 'DataCenter'],
+          ].map(([t, d, illo], i) => (
+            <Step key={t} n={i + 5} className="card fact-card" delay={i * 0.08}>
+              <Illo name={illo} size={64} />
               <h3>{t}</h3>
               <p>{d}</p>
-            </Reveal>
+            </Step>
           ))}
         </div>
       </Section>
 
       <Section id="try-network" eyebrow="Try it · 2 minutes" title="Watch your real browser talk to servers" tone="red">
+        <div className="tryit-art" aria-hidden="true">
+          <Illo name="BrowserWindow" size={84} />
+          <span>⇄</span>
+          <Illo name="Server" size={84} />
+        </div>
         <div className="split">
           <Reveal>
             <ol className="steps-on-red">

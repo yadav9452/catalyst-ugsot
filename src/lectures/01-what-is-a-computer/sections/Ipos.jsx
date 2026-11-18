@@ -1,13 +1,14 @@
 import { AnimatePresence, motion } from 'framer-motion'
 import { useEffect, useState } from 'react'
-import { Callout, Reveal, Section } from './ui'
+import { Callout, Illo, Reveal, Section, useStep } from '../../../design-system'
+import { photos } from '../images'
 
 const STEPS = ['input', 'processing', 'storage', 'output']
 const NODE = {
-  input: { n: '01', t: 'Input', d: 'Data goes in' },
-  processing: { n: '02', t: 'Processing', d: 'The CPU works on it' },
-  output: { n: '03', t: 'Output', d: 'Results come out' },
-  storage: { n: '04', t: 'Storage', d: 'Kept for later use' },
+  input: { n: '01', t: 'Input', d: 'Data goes in', illo: 'Keyboard' },
+  processing: { n: '02', t: 'Processing', d: 'The CPU works on it', illo: 'Cpu' },
+  output: { n: '03', t: 'Output', d: 'Results come out', illo: 'Monitor' },
+  storage: { n: '04', t: 'Storage', d: 'Kept for later use', illo: 'Ssd' },
 }
 
 const scenarios = {
@@ -45,6 +46,7 @@ function Node({ id, active, onClick }) {
       animate={{ scale: on ? 1.05 : 1 }}
       aria-pressed={on}
     >
+      <Illo name={n.illo} size={64} className="ipos-illo" />
       <span className="ipos-num">{n.n}</span>
       <strong>{n.t}</strong>
       <span className="ipos-desc">{n.d}</span>
@@ -55,14 +57,18 @@ function Node({ id, active, onClick }) {
 
 function IposCycle() {
   const [scenario, setScenario] = useState('chat')
-  const [step, setStep] = useState(0)
+  const [localStep, setLocalStep] = useState(0)
   const [playing, setPlaying] = useState(false)
+  // In guided mode the instructor drives the cycle with → / ← (section steps 1–4).
+  const guidedStep = useStep()
+  const step = guidedStep.guided ? Math.max(guidedStep.step - 1, 0) : localStep
+  const setStep = guidedStep.guided ? () => {} : setLocalStep
 
   useEffect(() => {
-    if (!playing) return
-    const t = setInterval(() => setStep((s) => (s + 1) % STEPS.length), 2200)
+    if (!playing || guidedStep.guided) return
+    const t = setInterval(() => setLocalStep((s) => (s + 1) % STEPS.length), 2200)
     return () => clearInterval(t)
-  }, [playing])
+  }, [playing, guidedStep.guided])
 
   const active = STEPS[step]
   const s = scenarios[scenario]
@@ -89,11 +95,17 @@ function IposCycle() {
 
       <div className="ipos-diagram">
         <Node id="input" active={active} onClick={() => setStep(0)} />
-        <span className="ipos-arrow" aria-hidden="true">→</span>
+        <span className="ipos-arrow" aria-hidden="true">
+          →
+        </span>
         <Node id="processing" active={active} onClick={() => setStep(1)} />
-        <span className="ipos-arrow" aria-hidden="true">→</span>
+        <span className="ipos-arrow" aria-hidden="true">
+          →
+        </span>
         <Node id="output" active={active} onClick={() => setStep(3)} />
-        <span className="ipos-arrow-v" aria-hidden="true">⇅</span>
+        <span className="ipos-arrow-v" aria-hidden="true">
+          ⇅
+        </span>
         <Node id="storage" active={active} onClick={() => setStep(2)} />
       </div>
 
@@ -105,17 +117,21 @@ function IposCycle() {
         </AnimatePresence>
       </div>
 
-      <div className="ipos-controls">
-        <button type="button" className="btn btn-ghost btn-sm" onClick={() => setStep((x) => (x + STEPS.length - 1) % STEPS.length)}>
-          ← Back
-        </button>
-        <button type="button" className="btn btn-primary btn-sm" onClick={() => setPlaying((p) => !p)}>
-          {playing ? '❚❚ Pause' : '▶ Play the cycle'}
-        </button>
-        <button type="button" className="btn btn-ghost btn-sm" onClick={() => setStep((x) => (x + 1) % STEPS.length)}>
-          Next →
-        </button>
-      </div>
+      {guidedStep.guided ? (
+        <p className="ipos-hint">Guided mode: press → to move to the next step.</p>
+      ) : (
+        <div className="ipos-controls">
+          <button type="button" className="btn btn-ghost btn-sm" onClick={() => setStep((x) => (x + STEPS.length - 1) % STEPS.length)}>
+            ← Back
+          </button>
+          <button type="button" className="btn btn-primary btn-sm" onClick={() => setPlaying((p) => !p)}>
+            {playing ? '❚❚ Pause' : '▶ Play the cycle'}
+          </button>
+          <button type="button" className="btn btn-ghost btn-sm" onClick={() => setStep((x) => (x + 1) % STEPS.length)}>
+            Next →
+          </button>
+        </div>
+      )}
     </div>
   )
 }
@@ -125,22 +141,23 @@ const details = {
     title: 'Input: getting data in',
     lead: 'Any data or instruction you give to the computer.',
     items: [
-      ['Keyboard', 'Typing text and shortcuts'],
-      ['Mouse / trackpad', 'Clicking, dragging, scrolling'],
-      ['Touchscreen', 'Taps, swipes and pinches'],
-      ['Microphone', 'Voice commands to an assistant'],
-      ['Camera', 'Photos, video calls, QR codes'],
-      ['Sensors', 'GPS location, fingerprint, motion'],
+      ['Keyboard', 'Typing text and shortcuts', 'Keyboard'],
+      ['Mouse / trackpad', 'Clicking, dragging, scrolling', 'Mouse'],
+      ['Touchscreen', 'Taps, swipes and pinches', 'Touch'],
+      ['Microphone', 'Voice commands to an assistant', 'Microphone'],
+      ['Camera', 'Photos, video calls, QR codes', 'Camera'],
+      ['Sensors', 'GPS location, fingerprint, motion', 'Sensor'],
     ],
     dev: 'On a website, input is a form field, a button click or a search box.',
   },
   processing: {
     title: 'Processing: working on the data',
+    photo: [photos.cpu, 'CPU chips from Intel and AMD'],
     lead: 'Done mainly by the CPU, the brain of the computer. We open it up in Lecture 2.',
     items: [
-      ['Calculate', 'total = price * qty'],
-      ['Decide', 'if the password is right → log in'],
-      ['Execute', 'step 1 → step 2 → step 3, in order'],
+      ['Calculate', 'total = price * qty', 'Cpu'],
+      ['Decide', 'if the password is right → log in', 'Gear'],
+      ['Execute', 'step 1 → step 2 → step 3, in order', 'Instructions'],
     ],
     dev: 'Every calculation, if/else and loop you write is processing.',
   },
@@ -148,19 +165,20 @@ const details = {
     title: 'Output: getting results out',
     lead: 'The result the computer gives back after processing.',
     items: [
-      ['Screen', 'Text, images and video'],
-      ['Speakers', 'Music, alerts and voices'],
-      ['Printer', 'Paper copies of documents'],
-      ['Vibration', 'Phone notifications you can feel'],
+      ['Screen', 'Text, images and video', 'Monitor'],
+      ['Speakers', 'Music, alerts and voices', 'Speaker'],
+      ['Printer', 'Paper copies of documents', 'Printer'],
+      ['Vibration', 'Phone notifications you can feel', 'Vibration'],
     ],
     dev: 'The web page your code builds is output, displayed by the browser.',
   },
   storage: {
     title: 'Storage: keeping data for later',
+    photo: [photos.ram, 'Two RAM sticks'],
     lead: 'Two kinds: short-term RAM and long-term storage. Try the simulator below.',
     items: [
-      ['RAM (memory)', 'Your desk: fast, holds what you’re using now, cleared at power-off'],
-      ['Storage (SSD / HDD)', 'Your cupboard: slower, keeps files even when switched off'],
+      ['RAM (memory)', 'Your desk: fast, holds what you’re using now, cleared at power-off', 'Ram'],
+      ['Storage (SSD / HDD)', 'Your cupboard: slower, keeps files even when switched off', 'Ssd'],
     ],
     dev: 'Your code and project files live in storage; the program you’re running lives in RAM.',
   },
@@ -179,12 +197,35 @@ function StepDetails() {
         ))}
       </div>
       <AnimatePresence mode="wait">
-        <motion.div key={tab} className="details-body" initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -12 }} transition={{ duration: 0.25 }}>
-          <h3>{d.title}</h3>
-          <p className="intro">{d.lead}</p>
-          <div className={`card-grid ${d.items.length > 4 ? 'three' : d.items.length === 4 ? 'four' : d.items.length === 3 ? 'three' : 'two'}`}>
-            {d.items.map(([t, x], i) => (
-              <motion.div key={t} className="card" initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: i * 0.05 }}>
+        <motion.div
+          key={tab}
+          className="details-body"
+          initial={{ opacity: 0, y: 12 }}
+          animate={{ opacity: 1, y: 0 }}
+          exit={{ opacity: 0, y: -12 }}
+          transition={{ duration: 0.25 }}
+        >
+          <div className={d.photo ? 'details-head has-photo' : 'details-head'}>
+            <div>
+              <h3>{d.title}</h3>
+              <p className="intro">{d.lead}</p>
+            </div>
+            {d.photo && (
+              <motion.img className="details-photo" src={d.photo[0]} alt={d.photo[1]} initial={{ opacity: 0, scale: 0.9 }} animate={{ opacity: 1, scale: 1 }} />
+            )}
+          </div>
+          <div
+            className={`card-grid ${d.items.length > 4 ? 'three' : d.items.length === 4 ? 'four' : d.items.length === 3 ? 'three' : 'two'}`}
+          >
+            {d.items.map(([t, x, illo], i) => (
+              <motion.div
+                key={t}
+                className="card detail-card"
+                initial={{ opacity: 0, y: 12 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: i * 0.05 }}
+              >
+                <Illo name={illo} size={64} />
                 <h4>{t}</h4>
                 <p className={tab === 'processing' ? 'mono' : ''}>{x}</p>
               </motion.div>
@@ -208,6 +249,7 @@ export default function Ipos() {
         eyebrow="How it works"
         title="The IPOS cycle"
         intro="Every computer, from a smartwatch to a server, follows the same four steps. Pick an example and press play."
+        steps={4}
       >
         <Reveal>
           <IposCycle />
@@ -217,7 +259,9 @@ export default function Ipos() {
         <Reveal>
           <StepDetails />
         </Reveal>
-        <Callout label="Remember">Input → Processing → Output, with Storage keeping things for later. Every program you write follows this.</Callout>
+        <Callout label="Remember">
+          Input → Processing → Output, with Storage keeping things for later. Every program you write follows this.
+        </Callout>
       </Section>
     </>
   )
