@@ -479,3 +479,60 @@ export const Lightning = (p) => (
     <path d="M68 8L28 66h28l-6 46 42-62H64z" fill={AMBER} />
   </Svg>
 )
+
+/* ---------- Added for Lecture 2 ---------- */
+
+export const Shield = (p) => (
+  <Svg {...p}>
+    <path d="M60 8l40 14v30c0 28-18 48-40 60C38 100 20 80 20 52V22z" fill={RED} />
+    <path d="M42 58l12 12 24-26" stroke={WHITE} strokeWidth="7" />
+  </Svg>
+)
+
+export const Folder = (p) => (
+  <Svg {...p}>
+    <path d="M10 30a6 6 0 0 1 6-6h28l10 10h50a6 6 0 0 1 6 6v54a6 6 0 0 1-6 6H16a6 6 0 0 1-6-6z" fill={AMBER} />
+    <path d="M10 46h100" />
+    <rect x="30" y="58" width="60" height="6" rx="3" fill={WHITE} stroke="none" />
+  </Svg>
+)
+
+export const Headphones = (p) => (
+  <Svg {...p}>
+    <path d="M22 74V60a38 38 0 0 1 76 0v14" strokeWidth="6" />
+    <rect x="14" y="68" width="22" height="38" rx="8" fill={RED} />
+    <rect x="84" y="68" width="22" height="38" rx="8" fill={RED} />
+  </Svg>
+)
+
+export const Gamepad = (p) => (
+  <Svg {...p}>
+    <path d="M30 36h60c14 0 22 12 24 30s-6 34-18 34c-10 0-14-14-24-14H48c-10 0-14 14-24 14-12 0-20-16-18-34s10-30 24-30z" fill={INK} />
+    <path d="M36 56v16M28 64h16" stroke={WHITE} strokeWidth="4" />
+    <circle cx="80" cy="58" r="5" fill={RED} stroke="none" />
+    <circle cx="92" cy="68" r="5" fill={AMBER} stroke="none" />
+  </Svg>
+)
+
+export const Projector = (p) => (
+  <Svg {...p}>
+    <rect x="10" y="50" width="76" height="40" rx="8" fill={WHITE} />
+    <circle cx="66" cy="70" r="12" fill={INK} />
+    <circle cx="66" cy="70" r="5" fill={BLUE} stroke="none" />
+    <path d="M78 64l32-24M78 76l32 24" stroke={AMBER} />
+    <circle cx="24" cy="62" r="3" fill={RED} stroke="none" />
+  </Svg>
+)
+
+export const Motherboard = (p) => (
+  <Svg {...p}>
+    <rect x="8" y="8" width="104" height="104" rx="8" fill={GREEN} />
+    <rect x="22" y="22" width="34" height="34" rx="4" fill={INK} />
+    <rect x="30" y="30" width="18" height="18" rx="2" fill={RED} stroke="none" />
+    <rect x="70" y="20" width="8" height="44" rx="2" fill={INK} stroke="none" />
+    <rect x="84" y="20" width="8" height="44" rx="2" fill={INK} stroke="none" />
+    <rect x="22" y="74" width="70" height="10" rx="2" fill={INK} stroke="none" />
+    <rect x="22" y="92" width="44" height="8" rx="2" fill={AMBER} stroke="none" />
+    <path d="M56 40h10M40 56v14" stroke={AMBER} strokeWidth="2" />
+  </Svg>
+)
