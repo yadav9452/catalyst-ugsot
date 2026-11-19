@@ -1,5 +1,5 @@
 import { motion, useScroll, useSpring } from 'framer-motion'
-import { useEffect, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { Link } from 'react-router'
 
 /**
@@ -10,6 +10,7 @@ export default function SiteHeader({ lectureNumber, chapters = [] }) {
   const { scrollYProgress } = useScroll()
   const scaleX = useSpring(scrollYProgress, { stiffness: 120, damping: 30 })
   const [active, setActive] = useState('')
+  const listRef = useRef(null)
 
   useEffect(() => {
     if (!chapters.length) return
@@ -22,6 +23,15 @@ export default function SiteHeader({ lectureNumber, chapters = [] }) {
     return () => io.disconnect()
   }, [chapters])
 
+  // Long chapter lists scroll sideways: keep the active chapter in view.
+  useEffect(() => {
+    const ul = listRef.current
+    const a = ul?.querySelector('a.is-active')
+    if (!ul || !a) return
+    const left = a.getBoundingClientRect().left - ul.getBoundingClientRect().left + ul.scrollLeft
+    ul.scrollTo({ left: left - ul.clientWidth / 2 + a.clientWidth / 2, behavior: 'smooth' })
+  }, [active])
+
   return (
     <header className="nav">
       <div className="nav-inner">
@@ -31,7 +41,7 @@ export default function SiteHeader({ lectureNumber, chapters = [] }) {
         </Link>
         {chapters.length > 0 && (
           <nav aria-label="Chapters">
-            <ul className="nav-links">
+            <ul className="nav-links" ref={listRef}>
               {chapters.map((c) => (
                 <li key={c.id}>
                   <a href={`#${c.id}`} className={active === c.id ? 'is-active' : ''}>

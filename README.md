@@ -84,6 +84,11 @@ Speaker, Printer…), parts (Cpu, Ram, Ssd, Gear), software (BrowserWindow, Code
 ideas (Desk, Cupboard, Clock, Instructions…). Use them directly (`<Cpu size={80} />`) or by name
 (`<Illo name="Cpu" size={80} />`). Add new drawings to the same file.
 
+Photos and logos live in `assets/lectureN/`, and each lecture's `images.js` maps them. From Lecture 3
+on, the pictures come straight from that lecture's slide deck: export the deck as `.pptx`, take the
+files from `ppt/media/`, convert them to `.webp`, and drop them in `assets/lectureN/`. Lecture 3's
+`images.js` picks up every `.webp` in `assets/lecture3/` automatically (`img.tux`, `img['gui-launchpad']`…).
+
 ### Instructor steps (guided mode)
 
 Give a section `steps={n}` and wrap each point in `<Step n={…}>`:
