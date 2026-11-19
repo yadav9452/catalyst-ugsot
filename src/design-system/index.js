@@ -5,6 +5,7 @@ export { Reveal, Step, Section, Callout, Code, CopyButton, PauseBadge, Figure } 
 export { WhyItMatters, Recap, Quiz } from './WrapUp'
 export { useStep, useGuided } from './guided'
 export { default as Illo } from './Illo'
+export { default as OsKeys, Keys } from './OsKeys'
 export { default as LectureHero } from './LectureHero'
 export { default as LectureLayout } from './LectureLayout'
 export { default as RecordingControls } from './RecordingControls'

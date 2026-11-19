@@ -11,7 +11,7 @@ const places = [
     place: 'Houses',
     what: 'One personal folder per user. Your files, projects and settings live here.',
     eg: ['/home/jason', '/home/jason/Documents', '/home/pat'],
-    dev: 'Your code projects usually live in your home folder, e.g. ~/projects/portfolio.',
+    dev: 'Your code projects usually live in your home folder, e.g. ~/projects/portfolio. On a Mac the home folders are in /Users instead (/Users/jason); in WSL it is /home/yourname.',
   },
   {
     k: '/etc',
@@ -67,7 +67,7 @@ const places = [
     place: 'Live news screen',
     what: 'Live information straight from the kernel. These “files” don’t exist on disk; the kernel makes them up when you read them.',
     eg: ['/proc/cpuinfo', '/proc/meminfo', '/proc/uptime'],
-    dev: 'cat /proc/cpuinfo shows the CPU of the server you are logged in to.',
+    dev: 'cat /proc/cpuinfo shows the CPU of the server you are logged in to. Works in Ubuntu on WSL; a Mac has no /proc.',
   },
   {
     k: '/root',

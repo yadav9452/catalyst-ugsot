@@ -176,7 +176,7 @@ const ways = [
   ],
   [
     'cat > notes.txt',
-    'Type the content, then press Ctrl + D on a new line to save and finish.',
+    'Type the content, then press Ctrl + D on a new line to save and finish (Control + D on a Mac, not Cmd).',
     ['$ cat > notes.txt', 'Hello', 'Linux', '^D', '$ cat notes.txt', 'Hello', 'Linux'],
   ],
   ['echo "Hi" > file.txt', 'Writes one line straight into a file. Great inside scripts.', ['$ echo "Hi" > file.txt', '$ cat file.txt', 'Hi']],

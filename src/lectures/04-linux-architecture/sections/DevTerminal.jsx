@@ -135,7 +135,7 @@ export default function DevTerminal() {
               ))}
             </div>
             <p>
-              Try <code>cat /proc/cpuinfo</code> in the practice terminal above. Lecture 5 explores the whole tree.
+              Try <code>cat /proc/cpuinfo</code> in the practice terminal above (or in Ubuntu on WSL; a Mac has no /proc). Lecture 5 explores the whole tree.
             </p>
           </div>
         </div>

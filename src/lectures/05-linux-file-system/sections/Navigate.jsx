@@ -1,5 +1,6 @@
 import { useState } from 'react'
-import { Callout, PauseBadge, Reveal, Section, Step } from '../../../design-system'
+import { Callout, OsKeys, PauseBadge, Reveal, Section, Step } from '../../../design-system'
+import { terminalKeys } from '../../../course/shortcuts'
 import { img } from '../images'
 import { HOME, makeFs, run } from './fsSim'
 import Terminal from './Terminal'
@@ -82,7 +83,7 @@ export default function Navigate() {
         eyebrow="Part 5 · Moving around"
         title="pwd, cd, ls: your three compass commands"
         intro="Lost? pwd. Want to go somewhere? cd. Want to look around? ls."
-        steps={2}
+        steps={3}
       >
         <div className="l5-three">
           {three.map(([c, q, d, eg], i) => (
@@ -108,6 +109,13 @@ export default function Navigate() {
         <Step n={2}>
           <h3 className="sub">ls options: switch them on and off</h3>
           <LsLab />
+        </Step>
+        <Step n={3}>
+          <OsKeys
+            title="Terminal keys: Windows vs Mac"
+            rows={terminalKeys}
+            note="On a Mac, terminal shortcuts use the Control key (not Cmd), except copy and paste."
+          />
         </Step>
       </Section>
       <Section

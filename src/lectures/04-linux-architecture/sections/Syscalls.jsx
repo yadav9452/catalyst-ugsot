@@ -144,7 +144,9 @@ export default function Syscalls() {
       <Reveal>
         <Tracer />
       </Reveal>
-      <PauseBadge>On Linux or WSL, try it yourself: sudo apt install strace, then strace ls</PauseBadge>
+      <PauseBadge>
+        On Linux or WSL, try it yourself: sudo apt install strace, then strace ls (strace is Linux-only, so Mac users just watch this one)
+      </PauseBadge>
       <Callout>Your JavaScript, Python or Java code makes the same system calls underneath, every time it reads a file or opens a network connection.</Callout>
     </Section>
   )

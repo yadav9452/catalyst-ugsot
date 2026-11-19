@@ -306,3 +306,27 @@ html[data-presenter] .nav-links { display: none; }
 .tone-red .step-ctl button { background: var(--rose); color: var(--ink); }
 .rec .rec-guided { width: auto; padding: 0 14px; border-radius: 999px; font-size: 14px; font-weight: 600; }
 @media (max-width: 760px) { .step-ctl { float: none; margin: 0 0 16px; position: static; display: inline-flex; } }
+
+/* ---------- Windows vs Mac shortcuts (design-system/OsKeys.jsx) ---------- */
+.oskeys { margin-top: 24px; background: #fff; border: 1px solid var(--line); border-radius: var(--radius); padding: 20px; box-shadow: var(--shadow); }
+.oskeys-head { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 12px; margin-bottom: 14px; }
+.oskeys-head h3 { font-size: 22px; }
+.oskeys-pick { display: inline-flex; gap: 4px; padding: 4px; border: 2px solid var(--line); border-radius: 12px; }
+.oskeys-pick button { border: 0; background: none; padding: 6px 12px; border-radius: 8px; font-weight: 700; font-size: 14px; transition: background 0.2s, color 0.2s; }
+.oskeys-pick button:hover { background: var(--rose); }
+.oskeys-pick button.is-on { background: var(--red); color: #fff; }
+.oskeys-table { display: grid; gap: 6px; }
+.oskeys-row { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.3fr) minmax(0, 1.3fr); gap: 12px; align-items: center; padding: 10px 12px; border-radius: 12px; background: var(--alt); }
+.oskeys-th { background: var(--ink); color: #fff; font-weight: 700; font-size: 14px; }
+.oskeys-row .c-what { font-weight: 600; }
+.oskeys-row > span { transition: opacity 0.25s; }
+.oskeys-row kbd { margin: 2px 0; }
+.show-win .c-mac, .show-mac .c-win { opacity: 0.25; }
+.show-win .oskeys-row:not(.oskeys-th) .c-win, .show-mac .oskeys-row:not(.oskeys-th) .c-mac { font-weight: 600; }
+.oskeys-note { margin-top: 12px; font-size: 15px; color: var(--muted); }
+@media (max-width: 640px) {
+  .oskeys-row { grid-template-columns: minmax(0, 1fr); gap: 4px; }
+  .oskeys-th { display: none; }
+  .oskeys-row .c-win::before, .oskeys-row .c-mac::before { content: attr(data-os) ': '; font-size: 12px; font-weight: 700; color: var(--red-dark); }
+  .show-win .c-mac, .show-mac .c-win { display: none; }
+}

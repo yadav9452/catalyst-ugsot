@@ -23,7 +23,9 @@ function PowerCutSimulator() {
 
   return (
     <div className={`sim ${power ? '' : 'is-off'}`}>
-      <AnimatePresence>{flash && <motion.div className="sim-flash" initial={{ opacity: 0.9 }} animate={{ opacity: 0 }} exit={{ opacity: 0 }} />}</AnimatePresence>
+      <AnimatePresence>
+        {flash && <motion.div className="sim-flash" initial={{ opacity: 0.9 }} animate={{ opacity: 0 }} exit={{ opacity: 0 }} />}
+      </AnimatePresence>
       <div className="sim-col">
         <p className="sim-label">RAM · your desk</p>
         <textarea
@@ -35,7 +37,7 @@ function PowerCutSimulator() {
         />
         <div className="sim-actions">
           <button type="button" className="btn btn-primary btn-sm" onClick={save} disabled={!power}>
-            💾 Save (Ctrl + S)
+            💾 Save (Ctrl / Cmd + S)
           </button>
           {power ? (
             <button type="button" className="btn btn-ghost btn-sm" onClick={cut}>
@@ -60,7 +62,10 @@ function PowerCutSimulator() {
             {saved.map((f) => (
               <motion.li key={f.id} layout initial={{ opacity: 0, x: -30 }} animate={{ opacity: 1, x: 0 }}>
                 <strong>📄 {f.name}</strong>
-                <span>{f.text.slice(0, 48)}{f.text.length > 48 ? '…' : ''}</span>
+                <span>
+                  {f.text.slice(0, 48)}
+                  {f.text.length > 48 ? '…' : ''}
+                </span>
               </motion.li>
             ))}
           </AnimatePresence>
@@ -174,10 +179,18 @@ export default function Memory() {
           <h3 className="sub">Try it: the power-cut test</h3>
           <PowerCutSimulator />
         </Step>
-        <Callout label="Why it matters" step={4}>Unsaved work lives only in RAM, so a power cut loses it. Pressing Ctrl + S (Cmd + S on a Mac) copies it to storage.</Callout>
+        <Callout label="Why it matters" step={4}>
+          Unsaved work lives only in RAM, so a power cut loses it. Pressing Ctrl + S (Cmd + S on a Mac) copies it to storage.
+        </Callout>
       </Section>
 
-      <Section id="walkthrough" eyebrow="Putting it together" title="Walkthrough: adding two numbers" intro="Change the numbers and press Run. Watch each IPOS step light up next to the real JavaScript." tone="alt">
+      <Section
+        id="walkthrough"
+        eyebrow="Putting it together"
+        title="Walkthrough: adding two numbers"
+        intro="Change the numbers and press Run. Watch each IPOS step light up next to the real JavaScript."
+        tone="alt"
+      >
         <Reveal>
           <AddNumbers />
         </Reveal>

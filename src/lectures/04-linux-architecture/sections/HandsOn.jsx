@@ -1,6 +1,7 @@
 import { AnimatePresence, motion } from 'framer-motion'
 import { useEffect, useRef, useState } from 'react'
-import { PauseBadge, Reveal, Section, Step } from '../../../design-system'
+import { OsKeys, PauseBadge, Reveal, Section, Step } from '../../../design-system'
+import { terminalKeys } from '../../../course/shortcuts'
 import { HOME, complete, makeFs, run, shortPath } from './shellSim'
 
 /* ---------- Reading the prompt ---------- */
@@ -277,7 +278,7 @@ const help = [
   ['ls --help', 'A quick summary of the options'],
   ['Tab', 'Completes names for you'],
   ['↑', 'Brings back your last command'],
-  ['Ctrl + C', 'Stops a command that is running'],
+  ['Ctrl + C', 'Stops a command that is running. On a Mac too: it’s the Control key, not Cmd'],
   ['command not found', 'Just a typo, or a program that isn’t installed. Check the spelling.'],
 ]
 
@@ -289,7 +290,7 @@ export default function HandsOn() {
         eyebrow="Part 6 · Your first terminal session"
         title="Read the prompt, build a command"
         intro="Open your terminal now (Ubuntu on WSL, Terminal on a Mac, or your Ubuntu VM) and follow along."
-        steps={2}
+        steps={3}
       >
         <h3 className="sub">Reading the prompt: hover each part</h3>
         <Reveal>
@@ -309,6 +310,13 @@ export default function HandsOn() {
               </div>
             ))}
           </div>
+        </Step>
+        <Step n={3}>
+          <OsKeys
+            title="Windows vs Mac: the keys you’ll use every day"
+            rows={terminalKeys}
+            note="Inside a terminal, a Mac uses the Control key for Ctrl shortcuts. Cmd + C on a Mac copies text; it does not stop a command."
+          />
         </Step>
       </Section>
       <Section

@@ -1,5 +1,6 @@
 import { useReducer, useRef, useState } from 'react'
-import { Callout, PauseBadge, Reveal, Section, Step } from '../../../design-system'
+import { Callout, OsKeys, PauseBadge, Reveal, Section, Step } from '../../../design-system'
+import { editorKeys } from '../../../course/shortcuts'
 
 /* ---------- nano: save and exit ---------- */
 
@@ -100,7 +101,10 @@ function Nano() {
             ↺ Start again
           </button>
         </div>
-        <p className="l5-muted">The ^ means Ctrl. nano always lists its shortcuts at the bottom, so you never get stuck.</p>
+        <p className="l5-muted">
+          The ^ means Ctrl. On a Mac press the Control key, not Cmd. nano always lists its shortcuts at the bottom, so you never get stuck. (On newer Macs, nano
+          opens its twin, pico: same keys.)
+        </p>
       </div>
     </div>
   )
@@ -280,11 +284,12 @@ export default function Editors() {
         </Step>
       </Section>
       <Section id="editors-try" eyebrow="Pause and try" title="Edit a real file" tone="alt">
+        <OsKeys title="Editor keys: Windows vs Mac" rows={editorKeys} />
         <div className="l5-tryrow">
           <pre className="l5-trycode">
             {'nano notes.txt   # type a line, Ctrl+O, Enter, Ctrl+X\ncat notes.txt\n\nvim text.txt     # i, type, Esc, :wq\ncat text.txt'}
           </pre>
-          <PauseBadge>Mac users: nano and vim are already installed. Open Terminal and try them.</PauseBadge>
+          <PauseBadge>nano and vim are already installed in Ubuntu on WSL and on every Mac. Open your terminal and try them.</PauseBadge>
         </div>
       </Section>
     </>

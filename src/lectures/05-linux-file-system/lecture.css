@@ -438,3 +438,4 @@
 .l5-hidden > .l5-seg { justify-self: start; }
 .l5-ops-ctl small { display: block; margin-top: 4px; }
 @media (max-width: 600px) { .l5-redir-own input { flex: 1 1 100%; order: -1; } .l5-redir-own::before { content: "Text to write:"; flex: 1 1 100%; order: -2; font-size: 12px; color: #a8a8b3; } }
+.l5-drive-note { margin-top: 14px; font-size: 15px; background: var(--rose); border-radius: 12px; padding: 10px 12px; }

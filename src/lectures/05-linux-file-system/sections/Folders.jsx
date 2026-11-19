@@ -1,6 +1,7 @@
 import { AnimatePresence, motion } from 'framer-motion'
 import { useState } from 'react'
-import { Callout, PauseBadge, Reveal, Section, Step } from '../../../design-system'
+import { Callout, OsKeys, PauseBadge, Reveal, Section, Step } from '../../../design-system'
+import { fileManagerKeys } from '../../../course/shortcuts'
 import { expandBraces } from './fsSim'
 
 /* ---------- Hidden files: ls vs ls -a ---------- */
@@ -174,6 +175,7 @@ export default function Folders() {
         </Reveal>
         <Step n={1}>
           <Callout label="Challenge 2">You made a hidden file with touch .secret. Which command shows it? (Answer: ls -a. The -a means all.)</Callout>
+          <OsKeys title="Seeing hidden files outside the terminal" rows={fileManagerKeys} winLabel="Windows (File Explorer)" macLabel="Mac (Finder)" />
         </Step>
       </Section>
       <Section

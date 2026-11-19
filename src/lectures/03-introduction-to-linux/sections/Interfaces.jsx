@@ -5,7 +5,11 @@ import { img } from '../images'
 
 /* ---------- GUI: three clicks and some typing ---------- */
 
-const guiSteps = ['Right-click on the desktop', 'Choose “New Folder”', 'Type the name and press Enter']
+const guiSteps = [
+  'Right-click on the desktop (on a Mac: two-finger click, or Control + click)',
+  'Choose “New Folder”',
+  'Type the name and press Enter (Return on a Mac)',
+]
 
 function GuiPane() {
   const [stage, setStage] = useState(0)

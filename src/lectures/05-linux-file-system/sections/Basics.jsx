@@ -171,7 +171,8 @@ export default function Basics() {
           <Extensions />
         </Reveal>
         <Callout>
-          Extensions still matter to people and tools: your editor colours .js files, and web servers send .html as a web page. Keep using them.
+          Extensions still matter to people and tools: your editor colours .js files, and web servers send .html as a web page. Keep using them. Windows hides
+          them by default: in File Explorer turn on View → Show → File name extensions. On a Mac: Finder → Settings → Advanced → Show all filename extensions.
         </Callout>
       </Section>
     </>
