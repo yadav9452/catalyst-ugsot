@@ -58,7 +58,7 @@ export default function CountRace() {
         <div className="race-lane">
           <div className="race-label">
             <span className="race-avatar">
-              <Person size={44} />
+              <Person size={76} />
             </span>
             <strong>You</strong>
             <span>one number per second</span>
@@ -73,7 +73,7 @@ export default function CountRace() {
         <div className="race-lane">
           <div className="race-label">
             <span className="race-avatar">
-              <Laptop size={44} />
+              <Laptop size={76} />
             </span>
             <strong>Computer</strong>
             <span>this browser, right now</span>
@@ -123,7 +123,7 @@ export default function CountRace() {
         {problems.map(([Icon, t, d], i) => (
           <Step key={t} n={i + 2} className="card card-on-red problem" delay={i * 0.1}>
             <span className="problem-art">
-              <Icon size={64} />
+              <Icon size={112} />
             </span>
             <h3>{t}</h3>
             <p>{d}</p>

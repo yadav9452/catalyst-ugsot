@@ -34,7 +34,7 @@ function Machine() {
   return (
     <div className="machine" aria-label="Diagram: input goes into the computer, which follows instructions and produces output" role="img">
       <motion.div className="machine-part" animate={on(2)} transition={t}>
-        <Keyboard size={96} />
+        <Keyboard size={164} />
         <span>Input</span>
       </motion.div>
       <motion.div className="machine-flow" animate={on(2)} transition={t} aria-hidden="true">
@@ -42,13 +42,13 @@ function Machine() {
       </motion.div>
       <motion.div className="machine-box" animate={on(1)} transition={t}>
         <span className="machine-power" aria-hidden="true">
-          <Lightning size={34} />
+          <Lightning size={58} />
         </span>
         <div className={shown(3) ? 'spin' : ''}>
-          <Gear size={90} />
+          <Gear size={150} />
         </div>
         <motion.div className="machine-sheet" animate={{ opacity: shown(3) ? 1 : 0, y: shown(3) ? 0 : -30 }} transition={t}>
-          <Instructions size={58} />
+          <Instructions size={100} />
         </motion.div>
         <span>Computer</span>
       </motion.div>
@@ -56,7 +56,7 @@ function Machine() {
         <span className="flow-dot" />
       </motion.div>
       <motion.div className="machine-part" animate={on(4)} transition={t}>
-        <Monitor size={96} />
+        <Monitor size={164} />
         <span>Output</span>
       </motion.div>
     </div>
@@ -129,9 +129,9 @@ export default function Definition() {
         <div className="split">
           <Reveal className="split-text">
             <div className="you-write">
-              <Instructions size={72} />
+              <Instructions size={124} />
               <span aria-hidden="true">→</span>
-              <CodeEditor size={72} />
+              <CodeEditor size={124} />
             </div>
             <p className="lead">
               A set of instructions is a <strong>program</strong>. Writing programs is <strong>programming</strong>, and that’s what

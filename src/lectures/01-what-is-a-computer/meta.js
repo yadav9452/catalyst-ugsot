@@ -22,6 +22,9 @@ export const chapters = [
   { id: 'ipos', label: 'IPOS cycle' },
   { id: 'hwsw', label: 'Hardware & software' },
   { id: 'types', label: 'Types' },
+  { id: 'website', label: 'Websites & AI' },
+  { id: 'myths', label: 'Myth or fact' },
+  { id: 'assignment', label: 'Assignment' },
 ]
 
 export const why = [
@@ -37,6 +40,8 @@ export const recap = [
   'Hardware is the physical parts; software is the instructions.',
   'Desktops, laptops, phones and embedded devices are all computers.',
   'Servers send websites and data to clients over a network.',
+  'A website runs IPOS across three computers: browser (frontend), server (backend) and database (storage).',
+  'AI chat apps are software on servers in data centres. Your laptop is just the client.',
 ]
 
 export const quiz = [
@@ -69,6 +74,18 @@ export const quiz = [
     options: ['The client', 'The server', 'Your keyboard', 'The operating system'],
     a: 1,
     why: 'Your browser (the client) asks; the server responds with the files.',
+  },
+  {
+    q: 'You sign up on a website. Where is your account saved so it’s still there tomorrow?',
+    options: ['In the browser tab', 'In the server’s RAM', 'In a database', 'On the screen'],
+    a: 2,
+    why: 'The server saves it in a database: the website’s permanent storage.',
+  },
+  {
+    q: 'Is ChatGPT a computer?',
+    options: ['Yes, a very big one', 'No, it’s software running on many server computers', 'No, it’s a website with no computers', 'Yes, it lives in your laptop'],
+    a: 1,
+    why: 'ChatGPT is software. It runs on thousands of servers in data centres; your laptop is the client.',
   },
 ]
 

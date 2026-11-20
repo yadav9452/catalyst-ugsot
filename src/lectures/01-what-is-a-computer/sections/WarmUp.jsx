@@ -65,7 +65,7 @@ export default function WarmUp() {
                 whileHover={{ y: -4 }}
                 whileTap={{ scale: 0.95 }}
               >
-                <Illo name={illo} size={56} />
+                <Illo name={illo} size={100} />
                 <span>{label}</span>
                 {on && <span className="device-tick" aria-hidden="true">✓</span>}
               </motion.button>

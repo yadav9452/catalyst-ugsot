@@ -1,4 +1,5 @@
 import './lecture.css'
+import Beyond from './sections/Beyond'
 import CountRace from './sections/CountRace'
 import Definition from './sections/Definition'
 import HardwareSoftware from './sections/HardwareSoftware'
@@ -19,6 +20,7 @@ export default function Lecture() {
       <HardwareSoftware />
       <Types />
       <Servers />
+      <Beyond />
     </>
   )
 }

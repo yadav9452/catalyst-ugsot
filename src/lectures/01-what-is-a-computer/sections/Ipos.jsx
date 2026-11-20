@@ -46,7 +46,7 @@ function Node({ id, active, onClick }) {
       animate={{ scale: on ? 1.05 : 1 }}
       aria-pressed={on}
     >
-      <Illo name={n.illo} size={64} className="ipos-illo" />
+      <Illo name={n.illo} size={112} className="ipos-illo" />
       <span className="ipos-num">{n.n}</span>
       <strong>{n.t}</strong>
       <span className="ipos-desc">{n.d}</span>
@@ -225,7 +225,7 @@ function StepDetails() {
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: i * 0.05 }}
               >
-                <Illo name={illo} size={64} />
+                <Illo name={illo} size={112} />
                 <h4>{t}</h4>
                 <p className={tab === 'processing' ? 'mono' : ''}>{x}</p>
               </motion.div>

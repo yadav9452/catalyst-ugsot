@@ -86,7 +86,7 @@ function TypesTabs() {
       <div className="segmented" role="tablist" aria-label="Computer types">
         {Object.entries(types).map(([k, v]) => (
           <button key={k} type="button" role="tab" aria-selected={t === k} className={t === k ? 'is-on' : ''} onClick={() => setT(k)}>
-            <Illo name={v.illo} size={28} />
+            <Illo name={v.illo} size={46} />
             {v.label}
           </button>
         ))}
@@ -108,7 +108,7 @@ function TypesTabs() {
               animate={{ scale: 1, rotate: 0, opacity: 1 }}
               transition={{ type: 'spring', stiffness: 200, damping: 16 }}
             >
-              {d.photo ? <img src={d.photo} alt={`A ${d.label.toLowerCase()} computer`} /> : <Illo name={d.illo} size={150} title={d.label} />}
+              {d.photo ? <img src={d.photo} alt={`A ${d.label.toLowerCase()} computer`} /> : <Illo name={d.illo} size={250} title={d.label} />}
             </motion.div>
             <p className="lead">{d.blurb}</p>
           </div>
@@ -161,7 +161,7 @@ export default function Types() {
           {embedded.map(([illo, name, ipo], i) => (
             <Step key={name} n={i + 1} className="card embedded" delay={i * 0.08}>
               <span className="embedded-art">
-                <Illo name={illo} size={88} />
+                <Illo name={illo} size={150} />
               </span>
               <h3>{name}</h3>
               <ol className="mini-ipo">

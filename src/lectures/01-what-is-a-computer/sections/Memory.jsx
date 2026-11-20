@@ -1,7 +1,8 @@
 import { AnimatePresence, motion } from 'framer-motion'
-import { useState } from 'react'
-import { Callout, Code, PauseBadge, Reveal, Section, Step } from '../../../design-system'
-import { Cupboard, Desk } from '../../../design-system/illustrations'
+import { useContext, useEffect, useState } from 'react'
+import { Callout, PauseBadge, Reveal, Section, Step, useStep } from '../../../design-system'
+import { StepContext } from '../../../design-system/guided'
+import { Cpu, Cupboard, Desk, Keyboard, Monitor, Ram } from '../../../design-system/illustrations'
 import { photos } from '../images'
 
 function PowerCutSimulator() {
@@ -78,69 +79,236 @@ function PowerCutSimulator() {
   )
 }
 
-const addCode = [
-  '// Input, held in RAM',
-  'let a = Number(prompt("First number?"));',
-  'let b = Number(prompt("Second number?"));',
-  '// Processing',
-  'let sum = a + b;',
-  '// Output',
-  'alert("Sum is " + sum);',
+/* ---------- Walkthrough: watch 7 + 5 travel through the computer ---------- */
+
+// Where each part sits on the stage, in % of its width and height.
+const SPOT = { kb: [17, 50], ram: [50, 76], cpu: [50, 24], screen: [83, 50] }
+const WIRES = [
+  ['kb', 'ram', [2]],
+  ['ram', 'cpu', [3, 4]],
+  ['ram', 'screen', [5]],
 ]
+// What travels in each step: [label, from, to]
+const moves = (a, b, sum) => ({
+  2: [
+    [a, 'kb', 'ram'],
+    [b, 'kb', 'ram'],
+  ],
+  3: [
+    [a, 'ram', 'cpu'],
+    [b, 'ram', 'cpu'],
+  ],
+  4: [[sum, 'cpu', 'ram']],
+  5: [[sum, 'ram', 'screen']],
+})
+
+function Station({ id, title, art, on, children }) {
+  const [x, y] = SPOT[id]
+  return (
+    <motion.div
+      className={`walk-station ${on ? 'is-on' : ''}`}
+      style={{ left: `${x}%`, top: `${y}%`, x: '-50%', y: '-50%' }}
+      animate={{ scale: on ? 1.06 : 1 }}
+      transition={{ type: 'spring', stiffness: 260, damping: 18 }}
+    >
+      <span className="walk-art">{art}</span>
+      <strong>{title}</strong>
+      <div className="walk-body">{children}</div>
+    </motion.div>
+  )
+}
+
+const Val = ({ show, children, delay = 0.75 }) =>
+  show ? (
+    <motion.b key={String(children)} initial={{ scale: 0, opacity: 0 }} animate={{ scale: 1, opacity: 1 }} transition={{ delay, type: 'spring', stiffness: 300 }}>
+      {children}
+    </motion.b>
+  ) : (
+    <b className="is-empty">–</b>
+  )
 
 function AddNumbers() {
   const [a, setA] = useState(7)
   const [b, setB] = useState(5)
-  const [step, setStep] = useState(-1)
+  const [local, setLocal] = useState(0)
+  const [auto, setAuto] = useState(false)
+  const { guided, step: gStep } = useStep()
+  const ctx = useContext(StepContext)
+  const step = guided ? Math.min(gStep, 5) : local
+  const go = (n) => (guided ? ctx.setStep(n) : setLocal(n))
   const sum = Number(a) + Number(b)
-  const steps = [
-    { tag: 'Input', cls: 't-in', text: `You type ${a}, then ${b}`, line: 1 },
-    { tag: 'Storage', cls: 't-st', text: 'Both numbers are held in RAM', line: 2 },
-    { tag: 'Processing', cls: 't-pr', text: `The CPU adds them: ${a} + ${b}`, line: 4 },
-    { tag: 'Storage', cls: 't-st', text: `The result, ${sum}, is stored`, line: 4 },
-    { tag: 'Output', cls: 't-out', text: `${sum} appears on the screen`, line: 6 },
-  ]
+  const show = Number.isFinite(sum) ? sum : '?'
 
-  function run() {
-    setStep(-1)
-    steps.forEach((_, i) => setTimeout(() => setStep(i), 300 + i * 900))
+  const steps = [
+    { tag: 'Input', cls: 't-in', text: `You type ${a}, then ${b} on the keyboard`, on: ['kb'] },
+    { tag: 'Storage', cls: 't-st', text: `${a} and ${b} travel to RAM and wait there`, on: ['ram'] },
+    { tag: 'Processing', cls: 't-pr', text: `The CPU fetches them from RAM and adds: ${a} + ${b} = ${show}`, on: ['cpu'] },
+    { tag: 'Storage', cls: 't-st', text: `The result, ${show}, is stored back in RAM`, on: ['ram'] },
+    { tag: 'Output', cls: 't-out', text: `${show} is sent to the screen: “Sum is ${show}”`, on: ['screen'] },
+  ]
+  const cur = steps[step - 1]
+  const on = (id) => !!cur?.on.includes(id)
+
+  // Play all: one step every 1.8 s.
+  const playing = auto && step < 5
+  const manual = (n) => {
+    setAuto(false)
+    go(n)
   }
+  useEffect(() => {
+    if (!playing) return
+    const t = setTimeout(() => go(step + 1), step === 0 ? 300 : 1800)
+    return () => clearTimeout(t)
+  }, [playing, step]) // eslint-disable-line react-hooks/exhaustive-deps
+
+  const travelling = moves(a, b, show)[step] ?? []
 
   return (
-    <div className="split">
-      <div>
-        <div className="add-inputs">
-          <label>
-            First number
-            <input type="number" value={a} onChange={(e) => setA(e.target.value)} />
-          </label>
-          <label>
-            Second number
-            <input type="number" value={b} onChange={(e) => setB(e.target.value)} />
-          </label>
-          <button type="button" className="btn btn-primary" onClick={run}>
-            ▶ Run
-          </button>
-        </div>
-        <ol className="flow-steps">
-          {steps.map((s, i) => (
-            <motion.li key={i} animate={{ opacity: step >= i ? 1 : 0.35, x: step === i ? 8 : 0 }}>
-              <span className={`tag ${s.cls}`}>{s.tag}</span>
-              <span>{s.text}</span>
-            </motion.li>
+    <div className="walk">
+      <div className="add-inputs">
+        <label>
+          First number
+          <input type="number" value={a} onChange={(e) => {
+            setA(e.target.value)
+            manual(0)
+          }} />
+        </label>
+        <label>
+          Second number
+          <input type="number" value={b} onChange={(e) => {
+            setB(e.target.value)
+            manual(0)
+          }} />
+        </label>
+        <button
+          type="button"
+          className="btn btn-primary"
+          onClick={() => {
+            go(0)
+            setAuto(true)
+          }}
+          disabled={playing}
+        >
+          ▶ Play all
+        </button>
+      </div>
+
+      <div className="walk-stage" role="img" aria-label={cur ? `Step ${step}: ${cur.tag}. ${cur.text}` : 'Keyboard, RAM, CPU and screen, waiting to start'}>
+        <svg viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true">
+          {WIRES.map(([f, t, when]) => (
+            <line
+              key={f + t}
+              x1={SPOT[f][0]}
+              y1={SPOT[f][1]}
+              x2={SPOT[t][0]}
+              y2={SPOT[t][1]}
+              className={when.includes(step) ? 'on' : ''}
+              vectorEffect="non-scaling-stroke"
+            />
           ))}
-        </ol>
-        <AnimatePresence>
-          {step === steps.length - 1 && (
-            <motion.div className="screen-out" initial={{ opacity: 0, scale: 0.9 }} animate={{ opacity: 1, scale: 1 }} exit={{ opacity: 0 }}>
-              Sum is {Number.isFinite(sum) ? sum : '…'}
-            </motion.div>
+        </svg>
+
+        <Station id="kb" title="Keyboard" art={<Keyboard size={112} />} on={on('kb')}>
+          {step >= 1 ? (
+            <span className="walk-typed">
+              <Val show delay={0.1}>
+                {a}
+              </Val>
+              <Val show delay={0.5}>
+                {b}
+              </Val>
+            </span>
+          ) : (
+            <span className="walk-hint">waiting…</span>
           )}
-        </AnimatePresence>
+        </Station>
+
+        <Station id="cpu" title="CPU" art={<Cpu size={112} />} on={on('cpu')}>
+          {step >= 3 ? (
+            <span className="walk-calc">
+              <Val show>
+                {a} + {b}
+              </Val>
+              <Val show delay={1.1}>
+                = {show}
+              </Val>
+            </span>
+          ) : (
+            <span className="walk-hint">idle</span>
+          )}
+          {step === 3 && (
+            <motion.span className="walk-gear" aria-hidden="true" animate={{ rotate: 360 }} transition={{ repeat: Infinity, duration: 1.2, ease: 'linear' }}>
+              ⚙
+            </motion.span>
+          )}
+        </Station>
+
+        <Station id="ram" title="RAM" art={<Ram size={112} />} on={on('ram')}>
+          <span className="walk-slots">
+            <span>
+              <small>a</small>
+              <Val show={step >= 2}>{a}</Val>
+            </span>
+            <span>
+              <small>b</small>
+              <Val show={step >= 2}>{b}</Val>
+            </span>
+            <span>
+              <small>sum</small>
+              <Val show={step >= 4}>{show}</Val>
+            </span>
+          </span>
+        </Station>
+
+        <Station id="screen" title="Screen" art={<Monitor size={112} />} on={on('screen')}>
+          {step >= 5 ? <Val show>Sum is {show}</Val> : <span className="walk-hint">blank</span>}
+        </Station>
+
+        {travelling.map(([label, f, t], i) => (
+          <motion.span
+            key={`${step}-${i}`}
+            className="walk-packet"
+            style={{ x: '-50%', y: '-50%' }}
+            initial={{ left: `${SPOT[f][0]}%`, top: `${SPOT[f][1]}%`, opacity: 0, scale: 0.6 }}
+            animate={{ left: `${SPOT[t][0]}%`, top: `${SPOT[t][1]}%`, opacity: [0, 1, 1, 0], scale: [0.6, 1.1, 1.1, 0.8] }}
+            transition={{ duration: 0.9, delay: i * 0.25, ease: 'easeInOut' }}
+          >
+            {label}
+          </motion.span>
+        ))}
       </div>
-      <div>
-        <Code lines={addCode} active={step >= 0 ? steps[step].line : -1} caption="Try it: paste this into the browser Console." />
+
+      <div className="walk-controls">
+        <button type="button" className="btn btn-ghost btn-sm" onClick={() => manual(Math.max(step - 1, 0))} disabled={step === 0 || playing}>
+          ◀ Back
+        </button>
+        <span className="walk-count">
+          Step {step} / 5
+        </span>
+        <button type="button" className="btn btn-primary btn-sm" onClick={() => manual(Math.min(step + 1, 5))} disabled={step === 5 || playing}>
+          Next ▶
+        </button>
+        <button
+          type="button"
+          className="btn btn-ghost btn-sm"
+          onClick={() => manual(0)}
+        >
+          ↺ Reset
+        </button>
       </div>
+
+      <ol className="flow-steps">
+        {steps.map((s, i) => (
+          <motion.li key={i} className={step === i + 1 ? 'is-now' : ''} animate={{ opacity: step > i ? 1 : 0.35, x: step === i + 1 ? 8 : 0 }}>
+            <button type="button" onClick={() => manual(i + 1)} aria-current={step === i + 1 ? 'step' : undefined}>
+              <span className={`tag ${s.cls}`}>
+                {i + 1} · {s.tag}
+              </span>
+              <span>{s.text}</span>
+            </button>
+          </motion.li>
+        ))}
+      </ol>
     </div>
   )
 }
@@ -160,7 +328,7 @@ export default function Memory() {
             <div className="analogy-art">
               <img className="analogy-photo" src={photos.ram} alt="RAM sticks" />
               <span aria-hidden="true">=</span>
-              <Desk size={110} />
+              <Desk size={186} />
             </div>
             <h3>RAM is your desk</h3>
             <p>What you’re working on right now sits here. Very fast to reach, but cleared every time the power goes off.</p>
@@ -169,7 +337,7 @@ export default function Memory() {
             <div className="analogy-art">
               <img className="analogy-photo" src={photos.ssd} alt="SSDs: a 2.5-inch SATA drive and two M.2 NVMe drives" />
               <span aria-hidden="true">=</span>
-              <Cupboard size={110} />
+              <Cupboard size={186} />
             </div>
             <h3>Storage is your cupboard</h3>
             <p>Files you’ve saved are kept here: photos, apps, your code. Slower to reach, but nothing is lost when you switch off.</p>
@@ -188,13 +356,14 @@ export default function Memory() {
         id="walkthrough"
         eyebrow="Putting it together"
         title="Walkthrough: adding two numbers"
-        intro="Change the numbers and press Run. Watch each IPOS step light up next to the real JavaScript."
+        intro="Follow 7 + 5 on its journey through the computer. Use Next to go one step at a time, or Play all. Change the numbers to try your own."
+        steps={5}
         tone="alt"
       >
         <Reveal>
           <AddNumbers />
         </Reveal>
-        <PauseBadge>Pause the video, open the Console and try the code with your own numbers</PauseBadge>
+        <PauseBadge>Pause the video and try it with your own numbers</PauseBadge>
       </Section>
     </>
   )
