@@ -24,7 +24,7 @@ export const chapters = [
   { id: 'types', label: 'Types' },
   { id: 'website', label: 'Websites & AI' },
   { id: 'myths', label: 'Myth or fact' },
-  { id: 'assignment', label: 'Assignment' },
+  { id: 'practice', label: 'Practice' },
 ]
 
 export const why = [
@@ -36,7 +36,7 @@ export const why = [
 
 export const recap = [
   'A computer takes input, processes it and produces output.',
-  'RAM holds current work; storage keeps files permanently.',
+  'Storage keeps data like photos, apps and code, even when the computer is switched off.',
   'Hardware is the physical parts; software is the instructions.',
   'Desktops, laptops, phones and embedded devices are all computers.',
   'Servers send websites and data to clients over a network.',
@@ -58,10 +58,10 @@ export const quiz = [
     why: 'A browser is a set of instructions. You can’t touch it, so it’s software.',
   },
   {
-    q: 'You were typing and the power went off. Which work is lost?',
-    options: ['Anything saved to storage', 'Unsaved work that was only in RAM', 'Everything on the computer', 'Nothing is ever lost'],
-    a: 1,
-    why: 'RAM is cleared at power-off. Files saved to storage (SSD/HDD) survive.',
+    q: 'You switch your laptop off and on again. What is still there?',
+    options: ['A file you saved', 'Text you typed but never saved', 'Both of them', 'Neither of them'],
+    a: 0,
+    why: 'Saved files are kept in storage, so they are still there. Save often: Ctrl + S (Cmd + S on a Mac).',
   },
   {
     q: 'Which of these is an embedded computer?',

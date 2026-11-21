@@ -1,6 +1,6 @@
 import { AnimatePresence, motion } from 'framer-motion'
 import { useEffect, useState } from 'react'
-import { Reveal, Section, Step } from '../../../design-system'
+import { Callout, Reveal, Section, Step } from '../../../design-system'
 
 const PHASES = ['fetch', 'decode', 'execute', 'store']
 const phaseInfo = {
@@ -10,12 +10,12 @@ const phaseInfo = {
   store: ['Store', 'The result is saved to a register or memory'],
 }
 
-// A tiny program, and what happens to each line in each phase.
+// You type 7 + 5 = on the Calculator app. These are the app's instructions, in plain English.
 const program = [
-  { code: 'let a = 5;', decode: 'Put the number 5 in a', execute: 'Nothing to calculate: the value is 5', store: { a: 5 } },
-  { code: 'let b = 3;', decode: 'Put the number 3 in b', execute: 'Nothing to calculate: the value is 3', store: { b: 3 } },
-  { code: 'let c = a + b;', decode: 'Add a and b, put the answer in c', execute: '5 + 3 = 8', store: { c: 8 } },
-  { code: 'console.log(c);', decode: 'Show the value of c on screen', execute: 'Read c → 8', store: { out: 8 } },
+  { code: 'Take the first number: 7', decode: 'Put 7 in box A', execute: 'Nothing to work out: it is just 7', store: { a: 7 } },
+  { code: 'Take the second number: 5', decode: 'Put 5 in box B', execute: 'Nothing to work out: it is just 5', store: { b: 5 } },
+  { code: 'Add box A and box B', decode: 'Add A and B, put the answer in box C', execute: '7 + 5 = 12', store: { c: 12 } },
+  { code: 'Show box C on the screen', decode: 'Send the number in box C to the screen', execute: 'Read box C → 12', store: { out: 12 } },
 ]
 const TOTAL = program.length * PHASES.length
 
@@ -63,12 +63,12 @@ function CpuCycle() {
 
       <div className="cycle-board">
         <div className="cycle-ram">
-          <p className="cycle-title">Memory (RAM): the program</p>
+          <p className="cycle-title">Memory: the Calculator app’s instructions</p>
           <ol>
             {program.map((p, i) => (
               <li key={p.code} className={s.pc === i ? 'is-on' : s.pc > i ? 'is-done' : ''}>
-                <span className="addr">{String(i).padStart(2, '0')}</span>
-                <code>{p.code}</code>
+                <span className="addr">{i + 1}</span>
+                <span className="instr">{p.code}</span>
               </li>
             ))}
           </ol>
@@ -80,13 +80,9 @@ function CpuCycle() {
             <strong>Control Unit</strong>
             <AnimatePresence mode="wait">
               <motion.span key={`${tick}-cu`} initial={{ opacity: 0, y: 6 }} animate={{ opacity: 1, y: 0 }}>
-                {s.phase === 'fetch' && (
-                  <>
-                    Fetched: <code>{line.code}</code>
-                  </>
-                )}
+                {s.phase === 'fetch' && <>Fetched: “{line.code}”</>}
                 {s.phase === 'decode' && <>Means: {line.decode}</>}
-                {(!s.phase || s.phase === 'execute' || s.phase === 'store') && <span className="muted">{line ? <code>{line.code}</code> : 'Waiting…'}</span>}
+                {(!s.phase || s.phase === 'execute' || s.phase === 'store') && <span className="muted">{line ? `“${line.code}”` : 'Waiting…'}</span>}
               </motion.span>
             </AnimatePresence>
           </div>
@@ -99,11 +95,11 @@ function CpuCycle() {
             </AnimatePresence>
           </div>
           <div className={`cycle-unit ${s.phase === 'store' ? 'is-on' : ''}`}>
-            <strong>Registers</strong>
+            <strong>Registers (tiny boxes inside the CPU)</strong>
             <span className="regs">
               {['a', 'b', 'c'].map((r) => (
                 <motion.span key={r} className="reg" animate={{ backgroundColor: s.phase === 'store' && line?.store[r] !== undefined ? '#E00C16' : '#2a2a2f' }}>
-                  {r} = {s.regs[r] ?? '–'}
+                  {r.toUpperCase()} = {s.regs[r] ?? '–'}
                 </motion.span>
               ))}
             </span>
@@ -130,7 +126,7 @@ function CpuCycle() {
             <strong>{phaseInfo[s.phase][0]}:</strong> {phaseInfo[s.phase][1]}.
           </>
         ) : (
-          'Press “Next step” to run the program one phase at a time.'
+          'You type 7 + 5 = on the Calculator app. Press “Next step” to follow it one step at a time.'
         )}
       </p>
 
@@ -168,7 +164,7 @@ export default function Cycle() {
       id="cycle"
       eyebrow="How the CPU works"
       title="Fetch → Decode → Execute → Store"
-      intro="Every instruction goes through the same four steps, billions of times per second. Step through a real four-line program."
+      intro="Every instruction goes through the same four steps, billions of times per second. Let’s follow the Calculator app as it works out 7 + 5."
       steps={4}
     >
       <div className="card-grid four">
@@ -183,6 +179,10 @@ export default function Cycle() {
       <Reveal>
         <CpuCycle />
       </Reveal>
+      <Callout label="Think of a cook">
+        Read the next step of the recipe (fetch), understand it (decode), do it (execute), put the result aside for the next step (store). The CPU does this
+        billions of times every second.
+      </Callout>
     </Section>
   )
 }

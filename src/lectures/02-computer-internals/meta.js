@@ -3,17 +3,17 @@ import HeroChip from './sections/HeroChip'
 
 export const hero = {
   title: 'Computer Internals:',
-  accent: 'Hardware, Software & Instructions',
+  accent: 'Hardware & Software',
   subtitle: 'Open the box: the CPU, memory and devices inside, and the software that tells them what to do.',
   visual: HeroChip,
 }
 
 export const goals = [
   ['Inside the CPU', 'Control Unit, ALU, registers and how it runs instructions'],
-  ['Memory and storage', 'Registers, cache, RAM, ROM, SSD and HDD'],
+  ['Memory and storage', 'The memory ladder, primary vs secondary memory, and why apps load into RAM'],
   ['Input and output', 'How devices connect you to the computer'],
   ['Performance', 'Why CPU, RAM and SSD decide how fast it feels'],
-  ['Software and instructions', 'System vs application software, and why precision matters'],
+  ['System and application software', 'The kinds of each, examples, and how they work together'],
 ]
 
 // Top-bar links. Each id must match a <Section id="..."> in the lecture.
@@ -21,26 +21,30 @@ export const chapters = [
   { id: 'hardware', label: 'Hardware' },
   { id: 'cycle', label: 'How the CPU works' },
   { id: 'memory', label: 'Memory' },
+  { id: 'ram-rom', label: 'Primary' },
+  { id: 'secondary', label: 'Secondary' },
+  { id: 'load-ram', label: 'Apps in RAM' },
   { id: 'io', label: 'Input & output' },
   { id: 'performance', label: 'Performance' },
   { id: 'software', label: 'Software' },
-  { id: 'precise', label: 'Instructions' },
+  { id: 'software-types', label: 'Software types' },
 ]
 
 export const why = [
-  ['</>', 'Every line of code you write is fetched, decoded and executed by the CPU'],
-  ['⚡', 'More RAM and an SSD make VS Code, the browser and your dev server faster'],
+  ['</>', 'Every app you use runs as instructions that the CPU fetches, decodes and executes'],
+  ['⚡', 'More RAM and an SSD make your browser, online classes and apps faster'],
   ['☰', 'Your apps are application software running on top of the operating system'],
-  ['!', 'Computers do exactly what you write, so precise code is the difference between 12 and NaN'],
+  ['⚙', 'Knowing what the OS does helps you fix everyday problems: slow laptops, missing drivers, full storage'],
 ]
 
 export const recap = [
   'The CPU has a Control Unit, an ALU, and registers and cache.',
   'It runs every instruction as fetch, decode, execute, store.',
-  'RAM holds current work; ROM starts the computer; SSD/HDD keep files.',
+  'Memory is a ladder: registers, cache, RAM (primary) are fast; SSD/HDD (secondary) are big and keep files.',
+  'Apps are copied from storage into RAM first, because the CPU can only work fast from RAM.',
   'A faster CPU, more RAM and an SSD make a computer feel faster.',
-  'System software runs the computer; application software does tasks.',
-  'Computers follow instructions exactly, so they must be precise.',
+  'System software (OS, drivers, utilities, firmware) runs the computer; application software does tasks for you.',
+  'Apps reach the hardware only through the operating system.',
 ]
 
 export const quiz = [
@@ -69,10 +73,10 @@ export const quiz = [
     why: 'Chrome does a specific task for the user, so it is application software. Windows or macOS is system software.',
   },
   {
-    q: 'let a = 5; let b; console.log(a + b) prints…',
-    options: ['5', '12', 'NaN', 'An error message asking for b'],
-    a: 2,
-    why: 'b has no value, so a + b is Not a Number. The computer never asks; it just follows the steps.',
+    q: 'Which of these is system software?',
+    options: ['WhatsApp', 'A printer driver', 'Netflix', 'Canva'],
+    a: 1,
+    why: 'A driver helps the operating system talk to a device, so it is system software. The others are apps that do a task for you.',
   },
 ]
 

@@ -16,7 +16,7 @@ const scenarios = {
     label: '💬 Send a chat message',
     input: 'You type “See you at 5!” on the keyboard.',
     processing: 'The CPU turns each key press into letters and prepares the message.',
-    storage: 'The message is held in RAM and saved in your chat history.',
+    storage: 'The message is saved in your chat history, so you can scroll back to it later.',
     output: 'The message appears on your screen, and on your friend’s phone.',
   },
   photo: {
@@ -30,7 +30,7 @@ const scenarios = {
     label: '➕ Add two numbers',
     input: 'You type 7, then 5.',
     processing: 'The CPU adds them: 7 + 5.',
-    storage: 'Both numbers and the result, 12, are held in RAM.',
+    storage: 'The numbers and the result, 12, are kept so the computer can use them.',
     output: '12 appears on the screen.',
   },
 }
@@ -174,13 +174,14 @@ const details = {
   },
   storage: {
     title: 'Storage: keeping data for later',
-    photo: [photos.ram, 'Two RAM sticks'],
-    lead: 'Two kinds: short-term RAM and long-term storage. Try the simulator below.',
+    photo: [photos.ssd, 'Storage drives: a 2.5-inch SATA SSD and two small M.2 SSDs'],
+    lead: 'Where the computer keeps data so it can use it again, even after it is switched off.',
     items: [
-      ['RAM (memory)', 'Your desk: fast, holds what you’re using now, cleared at power-off', 'Ram'],
-      ['Storage (SSD / HDD)', 'Your cupboard: slower, keeps files even when switched off', 'Ssd'],
+      ['On your device', 'Photos, apps and files on your phone or laptop', 'Ssd'],
+      ['In the cloud', 'Google Drive, iCloud, OneDrive: storage on servers you reach online', 'DataCenter'],
+      ['Saving', 'Ctrl + S (Cmd + S on a Mac) puts your work into storage', 'Folder'],
     ],
-    dev: 'Your code and project files live in storage; the program you’re running lives in RAM.',
+    dev: 'Your code and project files live in storage. A website’s data lives in a database: storage on a server.',
   },
 }
 

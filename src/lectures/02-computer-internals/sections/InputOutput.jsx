@@ -2,15 +2,21 @@ import { AnimatePresence, motion } from 'framer-motion'
 import { useEffect, useRef, useState } from 'react'
 import { Callout, Illo, PauseBadge, Reveal, Section, Step } from '../../../design-system'
 import { photos } from '../images'
+import { DevicePic } from './devices'
 
 /* ---------- Input ---------- */
 
-const inputTypes = [
-  ['Text input', 'Keyboard', 'Keyboard'],
-  ['Pointing', 'Mouse, trackpad, touchscreen', 'Mouse'],
-  ['Audio', 'Microphone, MIDI keyboard', 'Microphone'],
-  ['Image and video', 'Scanner, webcam, digital camera', 'Camera'],
-  ['Gaming and motion', 'Joystick, gamepad, VR controller', 'Gamepad'],
+// [picture id, name, type, what you use it for]
+const inputDevices = [
+  ['keyboard', 'Keyboard', 'Text', 'Type letters, numbers and shortcuts'],
+  ['mouse', 'Mouse', 'Pointing', 'Move the pointer, click and scroll'],
+  ['trackpad', 'Touchpad', 'Pointing', 'The “mouse” built into every laptop'],
+  ['touchscreen', 'Touchscreen', 'Touch', 'Tap, swipe and pinch on phones and tablets'],
+  ['microphone', 'Microphone', 'Sound', 'Voice calls, voice notes, “Hey Google”'],
+  ['webcam', 'Webcam', 'Video', 'Video calls and online classes'],
+  ['scanner', 'Scanner', 'Image', 'Turns a paper page into a digital file'],
+  ['barcode-scanner', 'Barcode / QR scanner', 'Image', 'Reads product codes at the billing counter'],
+  ['gamepad', 'Game controller', 'Gaming', 'Joystick, gamepad or VR controller'],
 ]
 
 const inputSteps = [
@@ -187,15 +193,18 @@ export default function InputOutput() {
         id="io"
         eyebrow="Talking to the outside world"
         title="Input devices"
-        intro="An input device sends information or instructions to the computer by turning your actions into digital data."
-        steps={5}
+        intro="An input device sends information or instructions to the computer by turning your actions into digital data. Here are the ones you use every day."
+        steps={3}
       >
-        <div className="io-types">
-          {inputTypes.map(([t, d, illo], i) => (
-            <Step key={t} n={i + 1} className="io-type" delay={i * 0.06}>
-              <span className="io-type-art">{illo === 'Keyboard' ? <img src={photos.keyboard} alt="" /> : <Illo name={illo} size={60} />}</span>
-              <strong>{t}</strong>
-              <span>{d}</span>
+        <div className="in-devs">
+          {inputDevices.map(([id, name, type, use], i) => (
+            <Step key={id} n={Math.floor(i / 3) + 1} className="in-dev" delay={(i % 3) * 0.08}>
+              <span className="in-dev-pic">
+                <DevicePic id={id} alt={name} size={110} />
+              </span>
+              <span className="in-dev-type">{type}</span>
+              <strong>{name}</strong>
+              <span>{use}</span>
             </Step>
           ))}
         </div>

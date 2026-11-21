@@ -1,11 +1,11 @@
 import { AnimatePresence, motion } from 'framer-motion'
 import { useContext, useEffect, useState } from 'react'
-import { Callout, PauseBadge, Reveal, Section, Step, useStep } from '../../../design-system'
+import { Callout, Illo, PauseBadge, Reveal, Section, Step, useStep } from '../../../design-system'
 import { StepContext } from '../../../design-system/guided'
-import { Cpu, Cupboard, Desk, Keyboard, Monitor, Ram } from '../../../design-system/illustrations'
+import { Cpu, Keyboard, Monitor, Ram } from '../../../design-system/illustrations'
 import { photos } from '../images'
 
-function PowerCutSimulator() {
+function SaveSimulator() {
   const [text, setText] = useState('My first web page idea: a portfolio with...')
   const [saved, setSaved] = useState([])
   const [power, setPower] = useState(true)
@@ -15,7 +15,7 @@ function PowerCutSimulator() {
     if (!text.trim()) return
     setSaved((s) => [{ id: Date.now(), name: `notes-${s.length + 1}.txt`, text }, ...s].slice(0, 4))
   }
-  function cut() {
+  function off() {
     setFlash(true)
     setPower(false)
     setText('')
@@ -28,31 +28,31 @@ function PowerCutSimulator() {
         {flash && <motion.div className="sim-flash" initial={{ opacity: 0.9 }} animate={{ opacity: 0 }} exit={{ opacity: 0 }} />}
       </AnimatePresence>
       <div className="sim-col">
-        <p className="sim-label">RAM · your desk</p>
+        <p className="sim-label">📝 Notes app · typing</p>
         <textarea
-          aria-label="Text in RAM (unsaved)"
+          aria-label="Your note (not saved yet)"
           value={text}
           disabled={!power}
           onChange={(e) => setText(e.target.value)}
-          placeholder={power ? 'Type something…' : 'Power is off. RAM is empty.'}
+          placeholder={power ? 'Type something…' : 'The laptop is switched off.'}
         />
         <div className="sim-actions">
           <button type="button" className="btn btn-primary btn-sm" onClick={save} disabled={!power}>
             💾 Save (Ctrl / Cmd + S)
           </button>
           {power ? (
-            <button type="button" className="btn btn-ghost btn-sm" onClick={cut}>
-              ⚡ Power cut
+            <button type="button" className="btn btn-ghost btn-sm" onClick={off}>
+              ⏻ Switch off
             </button>
           ) : (
             <button type="button" className="btn btn-ghost btn-sm" onClick={() => setPower(true)}>
-              🔌 Power on
+              🔌 Switch on
             </button>
           )}
         </div>
       </div>
       <div className="sim-col">
-        <p className="sim-label">Storage · your cupboard</p>
+        <p className="sim-label">🗄 Storage · saved files</p>
         <ul className="sim-files">
           <AnimatePresence initial={false}>
             {saved.length === 0 && (
@@ -73,11 +73,20 @@ function PowerCutSimulator() {
         </ul>
       </div>
       <p className="sim-status" aria-live="polite">
-        {power ? 'Type, save, then cut the power. What survives?' : 'Unsaved text in RAM is gone. Saved files in storage survived.'}
+        {power
+          ? 'Type a note, press Save, then switch the laptop off and on again. What is still there?'
+          : 'Saved files are still in storage. Anything you didn’t save is gone, so save often!'}
       </p>
     </div>
   )
 }
+
+const stored = [
+  ['Camera', 'Photos & videos', 'Every picture in your gallery'],
+  ['Phone', 'Apps', 'WhatsApp, Chrome, VS Code…'],
+  ['CodeEditor', 'Documents & code', 'Notes, assignments, your projects'],
+  ['Headphones', 'Music & chats', 'Downloads and message history'],
+]
 
 /* ---------- Walkthrough: watch 7 + 5 travel through the computer ---------- */
 
@@ -120,7 +129,12 @@ function Station({ id, title, art, on, children }) {
 
 const Val = ({ show, children, delay = 0.75 }) =>
   show ? (
-    <motion.b key={String(children)} initial={{ scale: 0, opacity: 0 }} animate={{ scale: 1, opacity: 1 }} transition={{ delay, type: 'spring', stiffness: 300 }}>
+    <motion.b
+      key={String(children)}
+      initial={{ scale: 0, opacity: 0 }}
+      animate={{ scale: 1, opacity: 1 }}
+      transition={{ delay, type: 'spring', stiffness: 300 }}
+    >
       {children}
     </motion.b>
   ) : (
@@ -168,17 +182,25 @@ function AddNumbers() {
       <div className="add-inputs">
         <label>
           First number
-          <input type="number" value={a} onChange={(e) => {
-            setA(e.target.value)
-            manual(0)
-          }} />
+          <input
+            type="number"
+            value={a}
+            onChange={(e) => {
+              setA(e.target.value)
+              manual(0)
+            }}
+          />
         </label>
         <label>
           Second number
-          <input type="number" value={b} onChange={(e) => {
-            setB(e.target.value)
-            manual(0)
-          }} />
+          <input
+            type="number"
+            value={b}
+            onChange={(e) => {
+              setB(e.target.value)
+              manual(0)
+            }}
+          />
         </label>
         <button
           type="button"
@@ -282,17 +304,11 @@ function AddNumbers() {
         <button type="button" className="btn btn-ghost btn-sm" onClick={() => manual(Math.max(step - 1, 0))} disabled={step === 0 || playing}>
           ◀ Back
         </button>
-        <span className="walk-count">
-          Step {step} / 5
-        </span>
+        <span className="walk-count">Step {step} / 5</span>
         <button type="button" className="btn btn-primary btn-sm" onClick={() => manual(Math.min(step + 1, 5))} disabled={step === 5 || playing}>
           Next ▶
         </button>
-        <button
-          type="button"
-          className="btn btn-ghost btn-sm"
-          onClick={() => manual(0)}
-        >
+        <button type="button" className="btn btn-ghost btn-sm" onClick={() => manual(0)}>
           ↺ Reset
         </button>
       </div>
@@ -319,36 +335,46 @@ export default function Memory() {
       <Section
         id="storage"
         eyebrow="Step 04 · Storage"
-        title="RAM vs storage: desk vs cupboard"
-        intro="RAM is short-term memory: fast, but cleared when the power goes off. Storage keeps your files permanently."
+        title="Storage: keeping data for later"
+        intro="Storage is where a computer keeps data so it can use it again: your photos, apps, documents and code. It stays there even when the computer is switched off."
         steps={4}
       >
-        <div className="analogy">
-          <Step n={1} className="analogy-card">
-            <div className="analogy-art">
-              <img className="analogy-photo" src={photos.ram} alt="RAM sticks" />
-              <span aria-hidden="true">=</span>
-              <Desk size={186} />
-            </div>
-            <h3>RAM is your desk</h3>
-            <p>What you’re working on right now sits here. Very fast to reach, but cleared every time the power goes off.</p>
-          </Step>
-          <Step n={2} className="analogy-card">
-            <div className="analogy-art">
-              <img className="analogy-photo" src={photos.ssd} alt="SSDs: a 2.5-inch SATA drive and two M.2 NVMe drives" />
-              <span aria-hidden="true">=</span>
-              <Cupboard size={186} />
-            </div>
-            <h3>Storage is your cupboard</h3>
-            <p>Files you’ve saved are kept here: photos, apps, your code. Slower to reach, but nothing is lost when you switch off.</p>
-          </Step>
+        <div className="card-grid four">
+          {stored.map(([illo, t, d], i) => (
+            <Step key={t} n={1} className="card store-card" delay={i * 0.08}>
+              <Illo name={illo} size={96} />
+              <h3>{t}</h3>
+              <p>{d}</p>
+            </Step>
+          ))}
         </div>
-        <Step n={3}>
-          <h3 className="sub">Try it: the power-cut test</h3>
-          <PowerCutSimulator />
+        <Step n={2}>
+          <h3 className="sub">Where is it kept?</h3>
+          <div className="store-where">
+            <div className="store-where-card">
+              <img src={photos.ssd} alt="Storage drives: a 2.5-inch SATA SSD and two small M.2 SSDs" />
+              <div>
+                <h4>On your device</h4>
+                <p>A storage drive inside your laptop or phone keeps your files, even with the power off.</p>
+              </div>
+            </div>
+            <div className="store-where-card">
+              <span className="store-cloud">
+                <Illo name="DataCenter" size={120} />
+              </span>
+              <div>
+                <h4>Online, in the cloud</h4>
+                <p>Google Drive, iCloud and OneDrive keep your files on servers, so you can open them from any device.</p>
+              </div>
+            </div>
+          </div>
         </Step>
-        <Callout label="Why it matters" step={4}>
-          Unsaved work lives only in RAM, so a power cut loses it. Pressing Ctrl + S (Cmd + S on a Mac) copies it to storage.
+        <Step n={3}>
+          <h3 className="sub">Try it: save, switch off, come back</h3>
+          <SaveSimulator />
+        </Step>
+        <Callout label="Good habit" step={4}>
+          Press Ctrl + S (Cmd + S on a Mac) to save your work to storage. In Lecture 2 we open the computer and meet the parts that do this.
         </Callout>
       </Section>
 

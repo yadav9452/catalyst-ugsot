@@ -10,12 +10,12 @@ const factors = [
   ['Storage: SSD vs HDD', 'An SSD opens apps and files several times faster than a hard disk.', 'ssd'],
 ]
 
-// A typical developer setup, in GB of RAM (rough, rounded figures for teaching).
+// A typical student setup, in GB of RAM (rough, rounded figures for teaching).
 const workload = [
   ['Operating system', 2.5, null],
-  ['VS Code', 1.2, 'vscode'],
   ['Chrome, 10 tabs', 2.5, 'chrome'],
-  ['Local dev server', 0.8, null],
+  ['Online class (Zoom / Meet)', 1.2, null],
+  ['Word + music app', 0.8, null],
 ]
 const NEED = workload.reduce((s, [, gb]) => s + gb, 0)
 
@@ -40,8 +40,8 @@ const memoryText = {
   ok: 'Tight: close to full, so it slows down with more tabs.',
   bad: 'Not enough: data keeps moving to slow storage (swapping).',
 }
-const cpuText = { good: 'Builds and reloads feel quick.', ok: 'Fine for everyday coding.', bad: 'Builds and reloads feel slow.' }
-const diskText = { good: 'Opens a project in about 2 seconds.', bad: 'Opens a project in about 10 seconds.' }
+const cpuText = { good: 'Apps open and switch instantly.', ok: 'Fine for everyday work.', bad: 'Slows down when many apps are open.' }
+const diskText = { good: 'Opens a big app in about 2 seconds.', bad: 'Opens a big app in about 10 seconds.' }
 
 function Picker({ label, values, value, set, unit = '' }) {
   return (
@@ -69,7 +69,7 @@ function LaptopBuilder() {
   return (
     <div className="builder">
       <div className="builder-controls">
-        <h3>Build your coding laptop</h3>
+        <h3>Build your student laptop</h3>
         <Picker label="CPU cores" values={options.cores} value={cores} set={setCores} />
         <Picker label="RAM" values={options.ram} value={ram} set={setRam} unit=" GB" />
         <Picker label="Storage" values={options.disk} value={disk} set={setDisk} />
@@ -147,10 +147,7 @@ export default function Performance() {
       <Reveal>
         <LaptopBuilder />
       </Reveal>
-      <Callout>
-        You’ll often run VS Code, a browser and a local server together. On 8 GB this can feel slow; 16 GB is comfortable. Efficient code also uses less CPU and
-        memory, so the apps you build feel faster for your users.
-      </Callout>
+      <Callout>You’ll often have a browser, an online class and a document open together. On 8 GB this can feel slow; 16 GB is comfortable.</Callout>
     </Section>
   )
 }

@@ -346,7 +346,7 @@ function MythCard({ m, i }) {
   )
 }
 
-/* ================= 4 · Assignment: the IPOS of an app you use ================= */
+/* ================= 4 · Practice: the IPOS of an app you use ================= */
 
 const apps = {
   UPI: {
@@ -389,7 +389,7 @@ const wheres = [
   ['both', 'Both'],
 ]
 
-function Assignment() {
+function Practice() {
   const [app, setApp] = useState('UPI')
   const [show, setShow] = useState(false)
   const ex = apps[app].example
@@ -491,16 +491,16 @@ export default function Beyond() {
       </Section>
 
       <Section
-        id="assignment"
-        eyebrow="Your assignment"
-        title="The IPOS of an app you use"
-        intro="Pick an app you used this week. Write its four IPOS steps in your notebook, and for each one say where it happens: on your phone, on a server, or both."
+        id="practice"
+        eyebrow="Practice"
+        title="Your turn: the IPOS of an app you use"
+        intro="Pick UPI, Instagram or Swiggy. For each IPOS step, say what happens and where: on your phone, on a server, or both. Then check yourself with the worked example."
         tone="rose"
       >
         <Reveal>
-          <Assignment />
+          <Practice />
         </Reveal>
-        <PauseBadge>Try it yourself first, then compare with the example</PauseBadge>
+        <PauseBadge>Pause the video, try it in your notebook, then press Show a worked example</PauseBadge>
       </Section>
     </>
   )

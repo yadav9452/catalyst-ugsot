@@ -7,7 +7,7 @@ const types = {
   desktop: {
     label: 'Desktop',
     illo: 'Desktop',
-    photo: photos.desktop,
+    photo: photos.towerPc2,
     blurb: 'Stays on a desk, with a separate monitor, keyboard and system unit.',
     meters: [
       ['Portability', 1, 'Stays on a desk'],

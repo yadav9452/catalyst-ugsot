@@ -110,6 +110,25 @@ export default function Definition() {
         intro="Pause and try to define it in one sentence. Then compare with this one:"
         steps={4}
       >
+        <motion.figure
+          className="def-pc"
+          initial={{ opacity: 0, x: 40 }}
+          whileInView={{ opacity: 1, x: 0 }}
+          viewport={{ once: true, amount: 0.3 }}
+          transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
+        >
+          <motion.img
+            src={photos.towerPc}
+            alt="A desktop computer: CPU cabinet, monitor, keyboard and mouse"
+            animate={{ y: [0, -8, 0] }}
+            transition={{ repeat: Infinity, duration: 4, ease: 'easeInOut' }}
+          />
+          <figcaption>
+            <span>Input: keyboard, mouse</span>
+            <span>Processing: CPU cabinet</span>
+            <span>Output: monitor</span>
+          </figcaption>
+        </motion.figure>
         <DefinitionSentence />
         <Reveal>
           <Machine />

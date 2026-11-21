@@ -3,6 +3,7 @@ import { useState } from 'react'
 import { Callout, Reveal, Section, Step, useStep } from '../../../design-system'
 import { Gear, Instructions, Lightning } from '../../../design-system/illustrations'
 import { photos } from '../images'
+import { DevicePic } from './devices'
 
 /* ---------- What is hardware? ---------- */
 
@@ -14,6 +15,13 @@ const groups = [
 ]
 
 /* ---------- Inside the CPU ---------- */
+
+const cpuFacts = [
+  ['Where it sits', 'In a socket on the motherboard, under a fan that keeps it cool'],
+  ['Who makes them', 'Intel and AMD for laptops and PCs, Apple for Macs, Qualcomm and MediaTek for phones'],
+  ['Speed', 'Measured in GHz: 3 GHz means about 3 billion steps every second'],
+  ['Cores', 'Most CPUs have 4 to 16 cores: small CPUs inside one chip, working side by side'],
+]
 
 const roles = [
   [Gear, 'Controls all operations', 'Tells every other part what to do and when'],
@@ -174,6 +182,20 @@ export default function Hardware() {
         tone="alt"
         steps={6}
       >
+        <Reveal className="cpu-hero">
+          <figure className="cpu-hero-photo">
+            <DevicePic id="cpu" alt="Real CPU chips: the shiny metal top and the gold pins or pads underneath" size={200} />
+            <figcaption>Real CPU chips, about the size of a matchbox</figcaption>
+          </figure>
+          <div className="cpu-hero-facts">
+            {cpuFacts.map(([t, d]) => (
+              <div key={t}>
+                <strong>{t}</strong>
+                <span>{d}</span>
+              </div>
+            ))}
+          </div>
+        </Reveal>
         <div className="card-grid three">
           {roles.map(([Icon, t, d], i) => (
             <Step key={t} n={i + 1} className="card role-card" delay={i * 0.08}>
@@ -197,9 +219,7 @@ export default function Hardware() {
         <Reveal>
           <AluPlayground />
         </Reveal>
-        <Callout>
-          When you write <code>if (marks &gt; 40)</code> in JavaScript, the ALU is the part that answers “yes” or “no”.
-        </Callout>
+        <Callout>When an app checks “Is the password correct?” or “Is the balance more than ₹500?”, the ALU is the part that answers yes or no.</Callout>
       </Section>
     </>
   )
