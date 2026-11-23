@@ -3,6 +3,7 @@ import { useEffect, useState } from 'react'
 import { Callout, Illo, Reveal, Section, Step, useStep } from '../../../design-system'
 import { CodeEditor } from '../../../design-system/illustrations'
 import { logo, photos } from '../images'
+import { DevicePic } from './devices'
 
 /* ---------- What's missing? ---------- */
 
@@ -44,65 +45,6 @@ function Missing() {
       <p className="missing-caption">
         {lit ? 'Software gives the instructions. Hardware carries them out.' : 'All this hardware… but who tells it what to do, and when?'}
       </p>
-    </div>
-  )
-}
-
-/* ---------- Save a file: the OS picks the disk blocks ---------- */
-
-const BLOCKS = 48
-const used0 = new Set([0, 1, 2, 5, 6, 9, 14, 15, 16, 22, 30, 31, 40])
-
-function SaveDemo() {
-  const [saved, setSaved] = useState([])
-  const [used] = useState(used0)
-  function save() {
-    const free = Array.from({ length: BLOCKS }, (_, i) => i).filter((i) => !used.has(i) && !saved.includes(i))
-    const pick = free.filter((_, i) => i % 5 === saved.length % 5).slice(0, 3)
-    setSaved((s) => [...s, ...pick])
-  }
-  const files = saved.length / 3
-  return (
-    <div className="save-demo">
-      <div className="save-left">
-        <div className="fake-editor">
-          <div className="fake-bar">
-            <span className="dots">
-              <i />
-              <i />
-              <i />
-            </span>
-            notes-{files + 1}.txt
-          </div>
-          <p>My notes for Lecture 2…</p>
-        </div>
-        <button type="button" className="btn btn-primary" onClick={save} disabled={files >= 4}>
-          💾 Save
-        </button>
-        <p className="save-caption" aria-live="polite">
-          {files === 0
-            ? 'You just click Save. You never choose where on the disk it goes.'
-            : `Saved! The operating system chose blocks ${saved.slice(-3).join(', ')} on the disk for you.`}
-        </p>
-      </div>
-      <div className="disk" role="img" aria-label="The disk, shown as small blocks; saved files fill free blocks">
-        <p>The disk (storage), as blocks</p>
-        <div className="disk-grid">
-          {Array.from({ length: BLOCKS }).map((_, i) => (
-            <motion.span
-              key={i}
-              className={`blk ${used.has(i) ? 'used' : ''} ${saved.includes(i) ? 'new' : ''}`}
-              animate={saved.includes(i) ? { scale: [0.6, 1.15, 1] } : {}}
-              transition={{ duration: 0.4, delay: (saved.slice(-3).indexOf(i) + 1) * 0.12 }}
-            >
-              {i}
-            </motion.span>
-          ))}
-        </div>
-        <p className="disk-key">
-          <span className="blk used" /> other files <span className="blk new" /> your file
-        </p>
-      </div>
     </div>
   )
 }
@@ -245,7 +187,7 @@ function PrintChain() {
         {chain.map(([name, kind, , illo], i) => (
           <div key={name} className={`print-node ${at === i ? 'is-on' : ''} ${at > i ? 'is-done' : ''}`}>
             <span className="print-art">
-              <Illo name={illo} size={64} />
+              {kind === 'Hardware' ? <DevicePic id="printer" alt="An inkjet printer" size={64} /> : <Illo name={illo} size={64} />}
             </span>
             <strong>{name}</strong>
             <small>{kind}</small>
@@ -402,17 +344,6 @@ export default function Software() {
         <Callout>When you write code, you are writing software.</Callout>
       </Section>
 
-      <Section
-        id="complexity"
-        eyebrow="Software handles complexity"
-        title="When you save a file, do you choose where it goes on the disk?"
-        intro="No. The operating system decides for you. Software hides this complexity so you can just click Save."
-        tone="alt"
-      >
-        <Reveal>
-          <SaveDemo />
-        </Reveal>
-      </Section>
 
       <Section
         id="software-types"

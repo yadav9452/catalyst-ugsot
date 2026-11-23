@@ -41,7 +41,7 @@ export const lectures = [
   { number: 6, slug: 'permissions-and-ownership', unit: 'linux', title: 'Understanding Permissions and Ownership',
     topics: ['Read, write, execute', 'User, group, others', 'Why permissions matter'] },
   { number: 7, slug: 'package-management', unit: 'linux', title: 'Package Management and Software Installation',
-    topics: ['What package managers do', 'apt basics', 'Linux as a web server OS', 'Local vs production'] },
+    topics: ['What package managers do', 'apt basics: installing and updating', 'Linux as a web server OS', 'Local vs production, and why the cloud uses Linux'] },
   { number: 8, slug: 'why-version-control', unit: 'git', title: 'Why Version Control Exists and What Git Solves',
     topics: ['Problems with manual copies', 'Git vs GitHub', 'First commits and history'] },
   { number: 9, slug: 'how-git-tracks-changes', unit: 'git', title: 'How Git Internally Tracks Changes',

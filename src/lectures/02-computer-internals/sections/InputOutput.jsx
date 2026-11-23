@@ -1,7 +1,6 @@
 import { AnimatePresence, motion } from 'framer-motion'
 import { useEffect, useRef, useState } from 'react'
-import { Callout, Illo, PauseBadge, Reveal, Section, Step } from '../../../design-system'
-import { photos } from '../images'
+import { Callout, PauseBadge, Reveal, Section, Step } from '../../../design-system'
 import { DevicePic } from './devices'
 
 /* ---------- Input ---------- */
@@ -94,9 +93,9 @@ function KeyJourney() {
 /* ---------- Output ---------- */
 
 const outputTypes = [
-  ['Visual', 'Monitor, projector', photos.monitor, 'Projector'],
-  ['Audio', 'Speaker, headphones', null, 'Headphones'],
-  ['Print', 'Printer', null, 'Printer'],
+  ['Visual', 'Monitor, projector', 'monitor', 'A computer monitor'],
+  ['Audio', 'Speaker, headphones', 'speaker', 'A pair of computer speakers'],
+  ['Print', 'Printer', 'printer', 'An inkjet printer printing a page'],
 ]
 const outputSteps = [
   ['Receive', 'The device gets processed data from the computer'],
@@ -108,12 +107,12 @@ const outputSteps = [
 /* ---------- Challenge ---------- */
 
 const challenge = [
-  ['Keyboard', 'Keyboard', 'in'],
-  ['Monitor', 'Monitor', 'out'],
-  ['Headphones', 'Headphones', 'out'],
-  ['Speaker', 'Speaker', 'out'],
-  ['Touchpad', 'Mouse', 'in'],
-  ['Touchscreen', 'Touch', 'both'],
+  ['Keyboard', 'keyboard', 'in'],
+  ['Monitor', 'monitor', 'out'],
+  ['Headphones', 'headphones', 'out'],
+  ['Speaker', 'speaker', 'out'],
+  ['Touchpad', 'trackpad', 'in'],
+  ['Touchscreen', 'touchscreen', 'both'],
 ]
 const kinds = { in: 'Input', out: 'Output', both: 'Both' }
 
@@ -124,7 +123,7 @@ function IoChallenge() {
   return (
     <div className="io-game">
       <div className="io-grid">
-        {challenge.map(([name, illo, kind]) => {
+        {challenge.map(([name, id, kind]) => {
           const a = answers[name]
           const right = a === kind
           const show = reveal || a
@@ -134,7 +133,9 @@ function IoChallenge() {
               className={`io-card ${show ? (right || reveal ? 'is-right' : 'is-wrong') : ''}`}
               animate={a && !right && !reveal ? { x: [0, -6, 6, -3, 3, 0] } : {}}
             >
-              <Illo name={illo} size={64} />
+              <span className="io-pic">
+                <DevicePic id={id} alt={name} size={64} />
+              </span>
               <strong>{name}</strong>
               <div className="io-btns">
                 {Object.entries(kinds).map(([k, label]) => (
@@ -180,10 +181,10 @@ function IoChallenge() {
 /* ---------- Together ---------- */
 
 const flow = [
-  ['Input', 'Keyboard', 'You type 5 and 3'],
-  ['Memory', 'Ram', 'The numbers wait in RAM'],
-  ['Processing', 'Cpu', 'The CPU adds them'],
-  ['Output', 'Monitor', '8 appears on screen'],
+  ['Input', 'keyboard', 'You type 5 and 3', 'A keyboard'],
+  ['Memory', 'ram', 'The numbers wait in RAM', 'RAM sticks'],
+  ['Processing', 'cpu', 'The CPU adds them', 'A CPU chip'],
+  ['Output', 'monitor', '8 appears on screen', 'A monitor'],
 ]
 
 export default function InputOutput() {
@@ -223,9 +224,11 @@ export default function InputOutput() {
         steps={7}
       >
         <div className="card-grid three">
-          {outputTypes.map(([t, d, img, illo], i) => (
+          {outputTypes.map(([t, d, id, alt], i) => (
             <Step key={t} n={i + 1} className="card out-card" delay={i * 0.06}>
-              <span className="out-art">{img ? <img src={img} alt="" /> : <Illo name={illo} size={84} />}</span>
+              <span className="out-art">
+                <DevicePic id={id} alt={alt} size={84} />
+              </span>
               <h3>{t}</h3>
               <p>{d}</p>
             </Step>
@@ -262,10 +265,10 @@ export default function InputOutput() {
         steps={4}
       >
         <div className="together-flow">
-          {flow.map(([t, illo, d], i) => (
+          {flow.map(([t, id, d, alt], i) => (
             <Step key={t} n={i + 1} className="together-node" delay={i * 0.1}>
               <span className="together-art">
-                <Illo name={illo} size={72} />
+                <DevicePic id={id} alt={alt} size={72} />
               </span>
               <strong>{t}</strong>
               <span>{d}</span>

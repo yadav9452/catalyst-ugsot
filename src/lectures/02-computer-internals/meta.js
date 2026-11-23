@@ -10,7 +10,7 @@ export const hero = {
 
 export const goals = [
   ['Inside the CPU', 'Control Unit, ALU, registers and how it runs instructions'],
-  ['Memory and storage', 'The memory ladder, primary vs secondary memory, and why apps load into RAM'],
+  ['Memory and storage', 'Primary vs secondary memory, and why apps load into RAM'],
   ['Input and output', 'How devices connect you to the computer'],
   ['Performance', 'Why CPU, RAM and SSD decide how fast it feels'],
   ['System and application software', 'The kinds of each, examples, and how they work together'],
@@ -20,7 +20,6 @@ export const goals = [
 export const chapters = [
   { id: 'hardware', label: 'Hardware' },
   { id: 'cycle', label: 'How the CPU works' },
-  { id: 'memory', label: 'Memory' },
   { id: 'ram-rom', label: 'Primary' },
   { id: 'secondary', label: 'Secondary' },
   { id: 'load-ram', label: 'Apps in RAM' },
@@ -40,7 +39,7 @@ export const why = [
 export const recap = [
   'The CPU has a Control Unit, an ALU, and registers and cache.',
   'It runs every instruction as fetch, decode, execute, store.',
-  'Memory is a ladder: registers, cache, RAM (primary) are fast; SSD/HDD (secondary) are big and keep files.',
+  'Primary memory (registers, cache, RAM, ROM) is fast; secondary memory (SSD/HDD) is big and keeps files.',
   'Apps are copied from storage into RAM first, because the CPU can only work fast from RAM.',
   'A faster CPU, more RAM and an SSD make a computer feel faster.',
   'System software (OS, drivers, utilities, firmware) runs the computer; application software does tasks for you.',

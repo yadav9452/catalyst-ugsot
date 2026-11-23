@@ -3,7 +3,7 @@
  * <DevicePic id="mouse" /> shows a photo from assets/lecture2/ (mouse.jpg, mouse.png…) when there is one,
  * otherwise one of the drawings below, drawn in the same style as the shared illustration library.
  */
-import { Camera, Cpu, Gamepad, Keyboard, Microphone, Monitor, Mouse, Ram, Ssd, Touch } from '../../../design-system/illustrations'
+import { Camera, Cpu, Gamepad, Headphones, Keyboard, Microphone, Monitor, Mouse, Printer, Projector, Ram, Speaker, Ssd, Touch } from '../../../design-system/illustrations'
 import { photos, pic } from '../images'
 
 const INK = '#1A1A1A'
@@ -176,7 +176,7 @@ const RegisterChip = (p) => <CpuInsideMemory focus="registers" {...p} />
 
 // Photo first (assets/lecture2/<id>.*), then a stored Lecture 1 photo, then a drawing.
 const devices = {
-  keyboard: { Draw: Keyboard },
+  keyboard: { photo: photos.keyboard, Draw: Keyboard },
   mouse: { Draw: Mouse },
   trackpad: { Draw: Trackpad },
   touchscreen: { photo: photos.mobile, Draw: Touch },
@@ -199,6 +199,10 @@ const devices = {
   'cd-dvd': { Draw: Disc },
   cloud: { Draw: Cloud },
   monitor: { photo: photos.monitor, Draw: Monitor },
+  speaker: { Draw: Speaker },
+  headphones: { Draw: Headphones },
+  printer: { Draw: Printer },
+  projector: { Draw: Projector },
 }
 
 export function DevicePic({ id, alt = '', size = 120, className = '' }) {

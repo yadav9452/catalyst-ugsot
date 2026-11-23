@@ -108,49 +108,6 @@ function CpuInside() {
   )
 }
 
-/* ---------- ALU playground ---------- */
-
-const ops = {
-  '+': (a, b) => a + b,
-  '−': (a, b) => a - b,
-  '×': (a, b) => a * b,
-  '÷': (a, b) => (b === 0 ? 'Can’t divide by 0' : Math.round((a / b) * 100) / 100),
-  '>': (a, b) => (a > b ? 'Yes (true)' : 'No (false)'),
-  '<': (a, b) => (a < b ? 'Yes (true)' : 'No (false)'),
-  '=': (a, b) => (a === b ? 'Yes (true)' : 'No (false)'),
-}
-const logic = new Set(['>', '<', '='])
-
-function AluPlayground() {
-  const [a, setA] = useState(7)
-  const [b, setB] = useState(5)
-  const [op, setOp] = useState('>')
-  const result = ops[op](Number(a), Number(b))
-  return (
-    <div className="alu">
-      <div className="alu-inputs">
-        <input type="number" value={a} onChange={(e) => setA(e.target.value)} aria-label="First number" />
-        <div className="alu-ops" role="group" aria-label="Operation">
-          {Object.keys(ops).map((o) => (
-            <button key={o} type="button" aria-pressed={op === o} onClick={() => setOp(o)}>
-              {o}
-            </button>
-          ))}
-        </div>
-        <input type="number" value={b} onChange={(e) => setB(e.target.value)} aria-label="Second number" />
-      </div>
-      <div className="alu-machine" aria-hidden="true">
-        <span>ALU</span>
-      </div>
-      <motion.p key={`${a}${op}${b}`} className="alu-result" initial={{ scale: 0.7, opacity: 0 }} animate={{ scale: 1, opacity: 1 }} aria-live="polite">
-        {logic.has(op) ? `Is ${a} ${op} ${b}? ` : `${a} ${op} ${b} = `}
-        <strong>{String(result)}</strong>
-      </motion.p>
-      <p className="alu-kind">{logic.has(op) ? 'Logic operation: a yes/no comparison' : 'Arithmetic operation: a calculation'}</p>
-    </div>
-  )
-}
-
 export default function Hardware() {
   return (
     <>
@@ -215,12 +172,6 @@ export default function Hardware() {
         </Callout>
       </Section>
 
-      <Section id="alu" eyebrow="Try it" title="Be the ALU" intro="Pick two numbers and an operation. Arithmetic gives a number; logic gives a yes or no.">
-        <Reveal>
-          <AluPlayground />
-        </Reveal>
-        <Callout>When an app checks “Is the password correct?” or “Is the balance more than ₹500?”, the ALU is the part that answers yes or no.</Callout>
-      </Section>
     </>
   )
 }

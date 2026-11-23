@@ -1,4 +1,5 @@
 import './lecture.css'
+import Credits from './sections/Credits'
 import Cycle from './sections/Cycle'
 import Hardware from './sections/Hardware'
 import InputOutput from './sections/InputOutput'
@@ -15,6 +16,7 @@ export default function Lecture() {
       <InputOutput />
       <Performance />
       <Software />
+      <Credits />
     </>
   )
 }
