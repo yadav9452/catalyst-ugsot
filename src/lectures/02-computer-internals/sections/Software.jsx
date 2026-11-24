@@ -420,7 +420,7 @@ export default function Software() {
         eyebrow="Two types of software"
         title="System software vs application software"
         intro="All software falls into two groups: software that runs the computer, and software that does jobs for you."
-        steps={2}
+        steps={1}
       >
         <div className="sw-types">
           <Step n={1} className="sw-type system">
@@ -446,11 +446,6 @@ export default function Software() {
             <p className="l2-also">Most of what you’ll build is application software</p>
           </Step>
         </div>
-        <Step n={2}>
-          <Callout label="Quick test">
-            Can the computer still work without it? <strong>No</strong> → system software (Windows). <strong>Yes</strong> → application software (Chrome).
-          </Callout>
-        </Step>
       </Section>
 
       <Section

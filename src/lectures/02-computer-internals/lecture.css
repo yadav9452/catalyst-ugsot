@@ -551,3 +551,5 @@
 .l2-print-logo { width: 80%; height: 80%; object-fit: contain; }
 .print-art { background: #fff; border: 1px solid rgba(0, 0, 0, 0.05); }
 .l2-ring-cpu { width: 64px; height: 64px; object-fit: cover; border-radius: 12px; }
+
+.l2-ob-btns { display: flex; gap: 8px; }

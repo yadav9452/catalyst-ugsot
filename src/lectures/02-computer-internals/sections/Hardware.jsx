@@ -48,7 +48,7 @@ const parts = {
     name: 'Registers & cache',
     tag: 'The scratchpad',
     simple: 'Tiny, super-fast memory inside the CPU. It holds the few numbers the CPU is using right now.',
-    like: ['📝', 'Like the rough work you jot in the margin while solving a sum.'],
+    like: ['📝', 'Like a small notepad on your desk where you write numbers while doing maths.'],
     example: 'To work out 499 + 299, both numbers sit in registers, and the answer 798 lands in a register too.',
   },
 }

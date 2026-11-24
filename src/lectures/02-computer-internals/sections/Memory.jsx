@@ -39,7 +39,6 @@ const primary = [
 
 const ramRom = [
   ['Power off', 'Volatile: everything in it is lost', 'Non-volatile: its contents stay'],
-  ['Can you change it?', 'Yes, it is written and rewritten all the time', 'Not in normal use, only by special firmware updates'],
   ['What it holds', 'The apps and files you are using right now', 'The start-up program that boots the computer'],
   ['Size', 'Big: 8 – 32 GB', 'Tiny: a few MB'],
   ['Example', 'Opening Chrome loads it into RAM', 'The logo you see when a PC starts comes from ROM'],
@@ -67,7 +66,6 @@ const hddSsd = [
   ['How it works', 'Spinning disk + moving arm', 'Memory chips, no moving parts'],
   ['Speed', 'Slower: apps take longer to open', 'Much faster: boots in seconds'],
   ['Cost for the same size', 'Cheaper', 'More expensive'],
-  ['If you drop it', 'Can break (moving parts)', 'Tougher'],
 ]
 
 /* ================= Why apps load into RAM first ================= */
@@ -265,7 +263,7 @@ export default function Memory() {
         eyebrow="Secondary memory"
         title="Secondary memory: keeping everything for later"
         intro="Secondary memory (storage) keeps your operating system, apps, photos and files, even when the power is off. Here are the devices you’ll meet."
-        steps={2}
+        steps={1}
       >
         <div className="mem-cards">
           {secondary.map(([id, name, what, size, speed], i) => (
@@ -309,12 +307,6 @@ export default function Memory() {
               </div>
             ))}
           </div>
-        </Step>
-        <Step n={2}>
-          <Callout label="Primary vs secondary">
-            Primary memory is fast and close to the CPU, but small (and RAM forgets at power-off). Secondary memory is big and keeps everything, but it is too
-            slow for the CPU to work from directly. That’s why apps are loaded into RAM first.
-          </Callout>
         </Step>
       </Section>
 

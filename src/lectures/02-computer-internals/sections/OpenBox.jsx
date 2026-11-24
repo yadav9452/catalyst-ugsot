@@ -1,5 +1,5 @@
-import { AnimatePresence, motion, useInView } from 'framer-motion'
-import { useEffect, useRef, useState } from 'react'
+import { AnimatePresence, motion } from 'framer-motion'
+import { useState } from 'react'
 import { Reveal, Section, useStep } from '../../../design-system'
 import { photos, pic } from '../images'
 
@@ -7,8 +7,8 @@ import { photos, pic } from '../images'
  * "Open the box": the opening animation for Lecture 2.
  * A computer case swings open to show the CPU, RAM and SSD on the motherboard,
  * then the input and output devices appear around it, then the software layer.
- * Stage 0 = closed; 1–5 match the section's guided steps. With guided mode off it
- * plays once when scrolled into view, and students can replay or jump to a stage.
+ * Stage 0 = closed; 1–5 match the section's guided steps. Nothing plays on its own:
+ * students press Next (or click a stage), the instructor presses → in guided mode.
  */
 
 const stages = [
@@ -63,31 +63,12 @@ function Part({ cls, src, label, on, glow }) {
 
 function OpenBox() {
   const { guided, step } = useStep()
-  const ref = useRef(null)
-  const inView = useInView(ref, { once: true, amount: 0.4 })
   const [local, setLocal] = useState(0)
-  const [playing, setPlaying] = useState(false)
   const n = guided ? Math.min(step, LAST) : local
-
-  const busy = playing && local < LAST
-
-  // Students: play once when the scene scrolls into view.
-  useEffect(() => {
-    if (guided || !inView) return
-    const reduce = window.matchMedia?.('(prefers-reduced-motion: reduce)').matches
-    const t = setTimeout(() => (reduce ? setLocal(LAST) : setPlaying(true)), 300)
-    return () => clearTimeout(t)
-  }, [guided, inView])
-
-  useEffect(() => {
-    if (!busy) return
-    const t = setTimeout(() => setLocal((x) => x + 1), local === 0 ? 900 : 2200)
-    return () => clearTimeout(t)
-  }, [busy, local])
 
   const s = stages[n]
   return (
-    <div className="l2-ob" ref={ref}>
+    <div className="l2-ob">
       <div className="l2-ob-stage">
         <div className="l2-ob-side">
           {inputs.map(([k, name, src], i) => (
@@ -151,10 +132,7 @@ function OpenBox() {
               className={k === n ? 'is-now' : k < n ? 'is-done' : ''}
               aria-pressed={k === n}
               disabled={guided}
-              onClick={() => {
-                setPlaying(false)
-                setLocal(k)
-              }}
+              onClick={() => setLocal(k)}
             >
               {x.name}
             </button>
@@ -166,17 +144,14 @@ function OpenBox() {
           </motion.p>
         </AnimatePresence>
         {!guided && (
-          <button
-            type="button"
-            className="btn btn-primary btn-sm"
-            onClick={() => {
-              setLocal(0)
-              setPlaying(true)
-            }}
-            disabled={busy}
-          >
-            {n === 0 ? '▶ Open the box' : '↺ Play again'}
-          </button>
+          <div className="l2-ob-btns">
+            <button type="button" className="btn btn-ghost btn-sm" onClick={() => setLocal(Math.max(0, n - 1))} disabled={n === 0}>
+              ← Back
+            </button>
+            <button type="button" className="btn btn-primary btn-sm" onClick={() => setLocal(n === LAST ? 0 : n + 1)}>
+              {n === 0 ? '▶ Open the box' : n === LAST ? '↺ Close it again' : 'Next →'}
+            </button>
+          </div>
         )}
       </div>
     </div>
