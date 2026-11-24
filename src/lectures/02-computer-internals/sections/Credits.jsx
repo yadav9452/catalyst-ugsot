@@ -9,6 +9,10 @@ const photos = [
   ['CPU under its fan', 'PCWare_IPM41-D3_Motherboard_(53161965807).jpg', 'Davidson F', 'CC0'],
   ['CPU with its speed printed', 'Intel_CPU_Core_i7_6700K_Skylake_top.jpg', 'Eric Gaba (Sting)', 'CC BY-SA 4.0'],
   ['Inside a CPU (cores)', 'Zen2_Matisse_Ryzen_7nm_Core_Die_shot.jpg', 'Fritzchens Fritz', 'CC0'],
+  ['Android robot', 'Android_robot.svg', 'Google', 'CC BY 3.0'],
+  ['Tux, the Linux mascot', 'Tux.svg', 'Larry Ewing and The GIMP', 'free to use with credit'],
+  ['Microsoft Edge logo', 'Microsoft_Edge_logo_(2019).svg', 'Microsoft', 'MIT'],
+  ['Firefox logo', 'Firefox_logo,_2019.svg', 'Mozilla', 'MPL 2.0'],
   ['Intel logo', 'Intel_logo_(2020,_dark_blue).svg', 'Intel', 'Public domain'],
   ['AMD logo', 'AMD_Logo.svg', 'AMD', 'Public domain'],
   ['Apple logo', 'Apple_logo_black.svg', 'Apple', 'Public domain'],
@@ -37,7 +41,7 @@ export default function Credits() {
     <div className="container l2-credits">
       <details>
         <summary>Photo credits</summary>
-        <p>Hardware photos from Wikimedia Commons, resized and cropped. Click a name to see the original and its licence. Company logos are trademarks of their owners.</p>
+        <p>Hardware photos from Wikimedia Commons, resized and cropped. Click a name to see the original and its licence. Company and app logos are trademarks of their owners; the other app logos (WhatsApp, YouTube, Word and so on) are public domain files from Wikimedia Commons.</p>
         <ul>
           {photos.map(([what, file, author, lic]) => (
             <li key={file}>

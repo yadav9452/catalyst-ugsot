@@ -1,6 +1,6 @@
 import { AnimatePresence, motion } from 'framer-motion'
 import { useState } from 'react'
-import { PauseBadge, Reveal, Section, useStep } from '../../../design-system'
+import { Reveal, Section, useStep } from '../../../design-system'
 
 /*
  * "Watch the three parts work together": one instruction, step by step.
@@ -119,8 +119,8 @@ function CpuTeam() {
           </ol>
         </div>
 
-        <div className="l2-chip" aria-label="Inside the CPU">
-          <p className="l2-chip-label">CPU</p>
+        <div className="l2-cpubox" aria-label="Inside the CPU">
+          <p className="l2-cpubox-label">CPU</p>
           <div className={`l2-part l2-cu ${glow('cu')}`}>
             <strong>Control Unit</strong>
             <small>the manager</small>
@@ -195,7 +195,6 @@ export default function CpuTeamSection() {
       tone="red"
       steps={6}
     >
-      <PauseBadge>Pause the video and try all three jobs</PauseBadge>
       <Reveal>
         <CpuTeam />
       </Reveal>

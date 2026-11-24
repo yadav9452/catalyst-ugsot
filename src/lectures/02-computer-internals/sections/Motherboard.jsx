@@ -1,6 +1,6 @@
 import { AnimatePresence, motion } from 'framer-motion'
 import { useState } from 'react'
-import { Callout, PauseBadge, Reveal, Section, useStep } from '../../../design-system'
+import { Callout, Reveal, Section, useStep } from '../../../design-system'
 import { photos, pic } from '../images'
 
 /*
@@ -158,7 +158,6 @@ export default function Motherboard() {
       tone="alt"
       steps={spots.length}
     >
-      <PauseBadge>Pause the video and find all eight parts</PauseBadge>
       <Reveal>
         <Board />
       </Reveal>

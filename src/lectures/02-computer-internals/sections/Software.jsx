@@ -2,7 +2,7 @@ import { AnimatePresence, motion } from 'framer-motion'
 import { useEffect, useState } from 'react'
 import { Callout, Illo, Reveal, Section, Step, useStep } from '../../../design-system'
 import { CodeEditor } from '../../../design-system/illustrations'
-import { logo, photos } from '../images'
+import { appLogo, logo, photos, pic } from '../images'
 import { DevicePic } from './devices'
 
 /* ---------- What's missing? ---------- */
@@ -49,40 +49,101 @@ function Missing() {
   )
 }
 
+/* ---------- Real logos for every app and system named on this page ---------- */
+
+const LOGOS = {
+  Windows: appLogo('windows11'),
+  'Windows 11': appLogo('windows11'),
+  macOS: appLogo('apple'),
+  iOS: appLogo('apple'),
+  Linux: appLogo('linux'),
+  Android: appLogo('android'),
+  Chrome: logo('chrome'),
+  'Google Chrome': logo('chrome'),
+  Edge: appLogo('edge'),
+  Firefox: appLogo('firefox'),
+  WhatsApp: appLogo('whatsapp'),
+  Gmail: appLogo('gmail'),
+  Zoom: appLogo('zoom'),
+  'Google Meet': appLogo('meet'),
+  'MS Word': appLogo('word'),
+  Excel: appLogo('excel'),
+  'Microsoft Excel': appLogo('excel'),
+  PowerPoint: appLogo('powerpoint'),
+  'Google Docs': appLogo('gdocs'),
+  YouTube: appLogo('youtube'),
+  Netflix: appLogo('netflix'),
+  Spotify: appLogo('spotify'),
+  Canva: appLogo('canva'),
+  Photoshop: appLogo('photoshop'),
+  'Google Photos': appLogo('googlephotos'),
+  Amazon: appLogo('amazon'),
+  Flipkart: appLogo('flipkart'),
+  'Google Pay': appLogo('gpay'),
+  PhonePe: appLogo('phonepe'),
+  Antivirus: appLogo('defender'),
+  'Printer driver': pic('printer'),
+  BIOS: pic('rom'),
+}
+
+/** A small example chip: real logo (when we have one) plus the name. */
+function LogoChip({ name }) {
+  const src = LOGOS[name]
+  return (
+    <span className="l2-chip">
+      {src && <img src={src} alt="" />}
+      {name}
+    </span>
+  )
+}
+
+/** A bigger logo with its name underneath, for the two main cards. */
+function LogoTile({ name }) {
+  const src = LOGOS[name]
+  return (
+    <span className="l2-tile">
+      <span className="l2-tile-img">{src ? <img src={src} alt="" /> : name[0]}</span>
+      <small>{name}</small>
+    </span>
+  )
+}
+
 /* ---------- System software: the kinds ---------- */
 
 const systemKinds = [
   {
     name: 'Operating system (OS)',
-    illo: 'OsWindows',
-    what: 'The main program that starts when you switch on. It runs the whole computer and every other program runs on top of it.',
+    pics: [appLogo('windows11'), appLogo('apple'), appLogo('linux'), appLogo('android')],
+    what: 'The main program. It starts first and runs everything else.',
     ex: ['Windows', 'macOS', 'Linux', 'Android', 'iOS'],
   },
   {
     name: 'Device drivers',
-    illo: 'Printer',
-    what: 'Small programs that teach the OS how to talk to one device: a printer, a Wi-Fi card, a graphics card, a webcam.',
+    pics: [pic('printer')],
+    photo: true,
+    what: 'Teach the OS how to use one device, like a printer or a webcam.',
     ex: ['Printer driver', 'Graphics driver', 'Wi-Fi driver'],
   },
   {
     name: 'Utility software',
-    illo: 'Shield',
-    what: 'Helper programs that look after the computer: keep it safe, clean and backed up.',
-    ex: ['Antivirus', 'Disk Cleanup', 'Backup tools', 'File compression (zip)'],
+    pics: [appLogo('defender')],
+    what: 'Helpers that keep the computer safe, clean and backed up.',
+    ex: ['Antivirus', 'Disk Cleanup', 'Backup tools', 'Zip'],
   },
   {
     name: 'Firmware (BIOS / UEFI)',
-    illo: 'Motherboard',
-    what: 'Software stored in the ROM chip. It checks the hardware and starts the OS when you press the power button.',
+    pics: [pic('rom')],
+    photo: true,
+    what: 'Lives in the ROM chip. Checks the hardware and starts the OS.',
     ex: ['BIOS', 'UEFI', 'Router firmware'],
   },
 ]
 
 const functions = [
-  ['Memory management', 'Decides which program gets which part of RAM', 'Ram'],
-  ['Processor scheduling', 'Decides which program uses the CPU, and when', 'Clock'],
-  ['File handling', 'Keeps files and folders organised on storage', 'Folder'],
-  ['Security', 'Controls who can open what, and blocks threats', 'Shield'],
+  ['Memory management', 'Gives each program its share of RAM', 'Ram', photos.ram],
+  ['Processor scheduling', 'Decides which program uses the CPU, and when', 'Clock', photos.cpu],
+  ['File handling', 'Keeps files and folders organised on storage', 'Folder', null],
+  ['Security', 'Controls who can open what, and blocks threats', 'Shield', appLogo('defender')],
 ]
 
 /* ---------- Application software: categories ---------- */
@@ -92,7 +153,7 @@ const appCats = [
   ['Communication', 'Phone', 'Talk, message and meet', ['WhatsApp', 'Gmail', 'Zoom', 'Google Meet']],
   ['Office and study', 'Folder', 'Write, calculate, present', ['MS Word', 'Excel', 'PowerPoint', 'Google Docs']],
   ['Entertainment', 'Headphones', 'Watch, listen, play', ['YouTube', 'Netflix', 'Spotify', 'Games']],
-  ['Photos and design', 'Camera', 'Create and edit pictures', ['Canva', 'Photoshop', 'Phone gallery editor']],
+  ['Photos and design', 'Camera', 'Create and edit pictures', ['Canva', 'Photoshop', 'Google Photos']],
   ['Shopping and payments', 'Atm', 'Buy things and pay', ['Amazon', 'Flipkart', 'Google Pay', 'PhonePe']],
 ]
 
@@ -122,7 +183,10 @@ function SortGame() {
           const state = pick ? (pick === kind ? 'is-right' : 'is-wrong') : ''
           return (
             <div key={name} className={`sort-card ${state}`}>
-              <strong>{name}</strong>
+              <span className="l2-sort-head">
+                {LOGOS[name] && <img src={LOGOS[name]} alt="" />}
+                <strong>{name}</strong>
+              </span>
               <div className="sort-btns" role="group" aria-label={`Is ${name} system or application software?`}>
                 {[
                   ['system', 'System'],
@@ -187,7 +251,13 @@ function PrintChain() {
         {chain.map(([name, kind, , illo], i) => (
           <div key={name} className={`print-node ${at === i ? 'is-on' : ''} ${at > i ? 'is-done' : ''}`}>
             <span className="print-art">
-              {kind === 'Hardware' ? <DevicePic id="printer" alt="An inkjet printer" size={64} /> : <Illo name={illo} size={64} />}
+              {kind === 'Hardware' ? (
+                <DevicePic id="printer" alt="An inkjet printer" size={64} />
+              ) : LOGOS[name] ? (
+                <img className="l2-print-logo" src={LOGOS[name]} alt="" />
+              ) : (
+                <Illo name={illo} size={64} />
+              )}
             </span>
             <strong>{name}</strong>
             <small>{kind}</small>
@@ -229,22 +299,22 @@ function PrintChain() {
 function Rings() {
   const { shown } = useStep()
   const ring = (n) => ({ opacity: shown(n) ? 1 : 0.1, scale: shown(n) ? 1 : 0.85 })
-  const chrome = logo('chrome')
-  const win = logo('windows')
+  const apps = ['Chrome', 'WhatsApp', 'MS Word'].map((n) => LOGOS[n])
+  const sys = ['Windows', 'Android', 'Linux'].map((n) => LOGOS[n])
   return (
     <div className="rings" role="img" aria-label="Layers: hardware in the centre, system software around it, application software on the outside">
       <motion.div className="ring r3" animate={ring(4)}>
         <span className="ring-label">
           Application software
-          <span className="ring-logos">{chrome && <img src={chrome} alt="" />}</span>
+          <span className="ring-logos">{apps.map((src, k) => src && <img key={k} src={src} alt="" />)}</span>
         </span>
         <motion.div className="ring r2" animate={ring(3)}>
           <span className="ring-label">
             System software
-            <span className="ring-logos">{win && <img src={win} alt="" />}</span>
+            <span className="ring-logos">{sys.map((src, k) => src && <img key={k} src={src} alt="" />)}</span>
           </span>
           <motion.div className="ring r1" animate={ring(2)}>
-            <Illo name="Cpu" size={56} />
+            <img className="l2-ring-cpu" src={photos.cpu} alt="" />
             <span className="ring-label">Hardware</span>
           </motion.div>
         </motion.div>
@@ -350,50 +420,35 @@ export default function Software() {
         eyebrow="Two types of software"
         title="System software vs application software"
         intro="All software falls into two groups: software that runs the computer, and software that does jobs for you."
-        steps={3}
+        steps={2}
       >
         <div className="sw-types">
           <Step n={1} className="sw-type system">
             <p className="sw-type-tag">System software</p>
-            <h3>The manager</h3>
-            <p>Software that runs and manages the computer itself. It works in the background so that the hardware and every app can work.</p>
-            <ul>
-              <li>Works closest to the hardware</li>
-              <li>Starts first, when you switch on</li>
-              <li>Runs all the time, mostly unseen</li>
-              <li>Gives apps a safe way to use the hardware</li>
-            </ul>
-            <p className="sw-examples">
-              {logo('windows') && <img src={logo('windows')} alt="" />}
-              Windows, macOS, Linux, Android, drivers, BIOS
-            </p>
+            <h3>Runs the computer</h3>
+            <p>Starts first and works in the background, so the hardware and every app can work.</p>
+            <div className="l2-logo-row">
+              {['Windows', 'macOS', 'Linux', 'Android'].map((n) => (
+                <LogoTile key={n} name={n} />
+              ))}
+            </div>
+            <p className="l2-also">Also: device drivers, BIOS</p>
           </Step>
           <Step n={1} className="sw-type app" delay={0.1}>
             <p className="sw-type-tag">Application software</p>
-            <h3>The task doer</h3>
-            <p>Software you open to get a specific job done: browse, chat, write, watch, pay. Often just called an “app”.</p>
-            <ul>
-              <li>Works closest to the user</li>
-              <li>Each app does one kind of job</li>
-              <li>Runs only when you open it</li>
-              <li>Most of what you’ll build is application software</li>
-            </ul>
-            <p className="sw-examples">
-              {logo('chrome') && <img src={logo('chrome')} alt="" />}
-              Chrome, WhatsApp, Word, YouTube, Google Pay
-            </p>
+            <h3>Does a job for you</h3>
+            <p>You open it to get one task done: browse, chat, write, watch, pay.</p>
+            <div className="l2-logo-row">
+              {['Chrome', 'WhatsApp', 'MS Word', 'YouTube', 'Google Pay'].map((n) => (
+                <LogoTile key={n} name={n} />
+              ))}
+            </div>
+            <p className="l2-also">Most of what you’ll build is application software</p>
           </Step>
         </div>
         <Step n={2}>
-          <Callout label="Think of a school">
-            The principal, office staff and electrician keep the school running. You rarely see them, but nothing works without them: that’s{' '}
-            <strong>system software</strong>. Each subject teacher helps you with one thing you came to learn: that’s <strong>application software</strong>.
-          </Callout>
-        </Step>
-        <Step n={3}>
           <Callout label="Quick test">
-            Ask: <em>“Can the computer still work without it?”</em> Remove Windows and the computer can’t run anything, so Windows is system software. Remove
-            Chrome and everything else still works, so Chrome is application software.
+            Can the computer still work without it? <strong>No</strong> → system software (Windows). <strong>Yes</strong> → application software (Chrome).
           </Callout>
         </Step>
       </Section>
@@ -409,17 +464,17 @@ export default function Software() {
         <div className="sw-kinds">
           {systemKinds.map((k, i) => (
             <Step key={k.name} n={i < 2 ? 1 : 2} className="sw-kind" delay={(i % 2) * 0.08}>
-              <span className="sw-kind-art">
-                <Illo name={k.illo} size={72} />
+              <span className={`sw-kind-art ${k.photo ? 'is-photo' : ''} ${k.pics.length > 1 ? 'is-grid' : ''}`}>
+                {k.pics.map((src, n) => src && <img key={n} src={src} alt="" />)}
               </span>
               <div>
                 <h3>{k.name}</h3>
                 <p>{k.what}</p>
-                <p className="sw-chips">
+                <span className="sw-chips">
                   {k.ex.map((e) => (
-                    <span key={e}>{e}</span>
+                    <LogoChip key={e} name={e} />
                   ))}
-                </p>
+                </span>
               </div>
             </Step>
           ))}
@@ -428,9 +483,9 @@ export default function Software() {
           <h3 className="sub">What does the operating system do?</h3>
         </Step>
         <div className="card-grid four">
-          {functions.map(([t, d, illo], i) => (
+          {functions.map(([t, d, illo, img], i) => (
             <Step key={t} n={i < 2 ? 3 : 4} className="card fn-card" delay={i * 0.08}>
-              <Illo name={illo} size={56} />
+              {img ? <img className="l2-fn-pic" src={img} alt="" /> : <Illo name={illo} size={56} />}
               <h3>{t}</h3>
               <p>{d}</p>
             </Step>
@@ -453,11 +508,11 @@ export default function Software() {
               </span>
               <h3>{t}</h3>
               <p className="app-cat-job">{job}</p>
-              <p className="sw-chips">
+              <span className="sw-chips">
                 {ex.map((e) => (
-                  <span key={e}>{e}</span>
+                  <LogoChip key={e} name={e} />
                 ))}
-              </p>
+              </span>
             </Reveal>
           ))}
         </div>

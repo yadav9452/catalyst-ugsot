@@ -33,29 +33,23 @@ const parts = {
   cu: {
     name: 'Control Unit (CU)',
     tag: 'The manager',
-    points: [
-      'Reads each instruction and works out what it means',
-      'Tells the ALU and memory what to do, and when',
-      'Controls how data moves between CPU, memory and devices',
-    ],
+    simple: 'It doesn’t do the maths itself. It reads each instruction and tells the other parts what to do.',
+    like: ['👨‍🍳', 'Like a head chef reading a recipe: “You chop, you fry, now plate it.”'],
+    example: 'You click Play on YouTube. The CU reads the app’s instructions one by one and sends each job to the right part.',
   },
   alu: {
     name: 'Arithmetic Logic Unit (ALU)',
     tag: 'The calculator',
-    points: [
-      'Arithmetic: add, subtract, multiply, divide (5 + 3 = 8)',
-      'Logic: comparisons (is 7 > 5? yes)',
-      'Every if-statement you write ends up as a comparison here',
-    ],
+    simple: 'It does all the maths (+ − × ÷) and answers yes/no questions (is 7 bigger than 5?).',
+    like: ['🧮', 'Like the calculator on your phone, but billions of times faster.'],
+    example: 'Your cart shows ₹499 + ₹299 = ₹798: the ALU added it. “Is the password correct?” Yes or no: the ALU checked it.',
   },
   reg: {
     name: 'Registers & cache',
     tag: 'The scratchpad',
-    points: [
-      'Tiny, extremely fast memory built into the CPU',
-      'Holds the few values the CPU is working on right now',
-      'Registers hold a few values; cache is a few megabytes',
-    ],
+    simple: 'Tiny, super-fast memory inside the CPU. It holds the few numbers the CPU is using right now.',
+    like: ['📝', 'Like the rough work you jot in the margin while solving a sum.'],
+    example: 'To work out 499 + 299, both numbers sit in registers, and the answer 798 lands in a register too.',
   },
 }
 const order = ['cu', 'alu', 'reg']
@@ -97,11 +91,13 @@ function CpuInside() {
         >
           <p className="cpu-detail-tag">{p.tag}</p>
           <h3>{p.name}</h3>
-          <ul>
-            {p.points.map((x) => (
-              <li key={x}>{x}</li>
-            ))}
-          </ul>
+          <p className="cpu-simple">{p.simple}</p>
+          <p className="cpu-like">
+            <span aria-hidden="true">{p.like[0]}</span> {p.like[1]}
+          </p>
+          <p className="cpu-example">
+            <strong>Example</strong> {p.example}
+          </p>
         </motion.div>
       </AnimatePresence>
     </div>
