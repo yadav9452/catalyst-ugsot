@@ -18,6 +18,8 @@ export const goals = [
 
 // Top-bar links. Each id must match a <Section id="..."> in the lecture.
 export const chapters = [
+  { id: 'open-box', label: 'Open the box' },
+  { id: 'motherboard', label: 'Motherboard' },
   { id: 'hardware', label: 'Hardware' },
   { id: 'cycle', label: 'How the CPU works' },
   { id: 'ram-rom', label: 'Primary' },

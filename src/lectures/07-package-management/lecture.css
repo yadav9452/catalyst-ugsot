@@ -2,7 +2,7 @@
 
 /* ---------- Shared bits ---------- */
 .l7-p { color: #ff6b72; font-weight: 700; font-family: var(--mono); }
-.l7-lead { font-size: 20px; max-width: 760px; }
+.l7-lead { font-size: 20px; }
 .l7-mt { margin-top: 16px; }
 .l7-sub-top { margin-top: 8px; }
 .l7-pick-label { font-family: var(--display); font-weight: 700; font-size: 15px; margin-bottom: 10px; color: var(--ink); }

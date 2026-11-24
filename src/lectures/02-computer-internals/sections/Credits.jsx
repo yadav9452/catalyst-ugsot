@@ -5,6 +5,15 @@
  */
 const photos = [
   ['Keyboard', 'QWERTY_keyboard.jpg', 'MichaelMaggs', 'CC BY-SA 3.0'],
+  ['Motherboard', 'Asus-ROG-Strix-Z390-F-Gaming-Motherboard_20201120_DSC6025.jpg', 'PantheraLeo1359531', 'CC BY 4.0'],
+  ['CPU under its fan', 'PCWare_IPM41-D3_Motherboard_(53161965807).jpg', 'Davidson F', 'CC0'],
+  ['CPU with its speed printed', 'Intel_CPU_Core_i7_6700K_Skylake_top.jpg', 'Eric Gaba (Sting)', 'CC BY-SA 4.0'],
+  ['Inside a CPU (cores)', 'Zen2_Matisse_Ryzen_7nm_Core_Die_shot.jpg', 'Fritzchens Fritz', 'CC0'],
+  ['Intel logo', 'Intel_logo_(2020,_dark_blue).svg', 'Intel', 'Public domain'],
+  ['AMD logo', 'AMD_Logo.svg', 'AMD', 'Public domain'],
+  ['Apple logo', 'Apple_logo_black.svg', 'Apple', 'Public domain'],
+  ['Qualcomm logo', 'Qualcomm-Logo.svg', 'Qualcomm', 'Public domain'],
+  ['MediaTek logo', 'MediaTek_logo.svg', 'MediaTek', 'Public domain'],
   ['Mouse', '3-Tasten-Maus_Microsoft.jpg', 'Darkone', 'CC BY-SA 2.5'],
   ['Touchpad', 'ASUS_ROG_Strix_G15_(G513QY-HQ012T)-top_keyboard_touchpad_PNr°0889.jpg', 'D-Kuru', 'CC BY-SA 4.0'],
   ['Microphone', 'Shure_mikrofon_55S.jpg', 'Holger.Ellgaard', 'CC BY-SA 3.0'],
@@ -28,7 +37,7 @@ export default function Credits() {
     <div className="container l2-credits">
       <details>
         <summary>Photo credits</summary>
-        <p>Hardware photos from Wikimedia Commons, resized and cropped. Click a name to see the original and its licence.</p>
+        <p>Hardware photos from Wikimedia Commons, resized and cropped. Click a name to see the original and its licence. Company logos are trademarks of their owners.</p>
         <ul>
           {photos.map(([what, file, author, lic]) => (
             <li key={file}>

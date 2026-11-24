@@ -2,7 +2,7 @@ import { AnimatePresence, motion } from 'framer-motion'
 import { useState } from 'react'
 import { Callout, Reveal, Section, Step, useStep } from '../../../design-system'
 import { Gear, Instructions, Lightning } from '../../../design-system/illustrations'
-import { photos } from '../images'
+import { photos, pic } from '../images'
 import { DevicePic } from './devices'
 
 /* ---------- What is hardware? ---------- */
@@ -10,17 +10,17 @@ import { DevicePic } from './devices'
 const groups = [
   ['CPU', 'The brain: runs every instruction', photos.cpu],
   ['Memory & storage', 'Holds what’s in use now, keeps files for later', photos.ram],
-  ['Input devices', 'Get data in: keyboard, mouse, microphone', photos.keyboard],
+  ['Input devices', 'Get data in: keyboard, mouse, microphone', null, [['keyboard', 'Keyboard'], ['mouse', 'Mouse'], ['microphone', 'Microphone']]],
   ['Output devices', 'Show results: monitor, speakers, printer', photos.monitor],
 ]
 
 /* ---------- Inside the CPU ---------- */
 
 const cpuFacts = [
-  ['Where it sits', 'In a socket on the motherboard, under a fan that keeps it cool'],
-  ['Who makes them', 'Intel and AMD for laptops and PCs, Apple for Macs, Qualcomm and MediaTek for phones'],
-  ['Speed', 'Measured in GHz: 3 GHz means about 3 billion steps every second'],
-  ['Cores', 'Most CPUs have 4 to 16 cores: small CPUs inside one chip, working side by side'],
+  ['Where it sits', 'In a socket on the motherboard, under a fan that keeps it cool', 'cpu-socket', 'A motherboard with the CPU hidden under its cooling fan'],
+  ['Who makes them', 'Intel and AMD for laptops and PCs, Apple for Macs, Qualcomm and MediaTek for phones', 'cpu-makers', 'Logos of Intel, AMD, Apple, Qualcomm and MediaTek'],
+  ['Speed', 'Measured in GHz: 3 GHz means about 3 billion steps every second', 'cpu-speed', 'An Intel Core i7 CPU with its speed, 4.00 GHz, printed on top'],
+  ['Cores', 'Most CPUs have 4 to 16 cores: small CPUs inside one chip, working side by side', 'cpu-cores', 'A close-up of the inside of a CPU chip: the repeating blocks are its cores'],
 ]
 
 const roles = [
@@ -119,11 +119,22 @@ export default function Hardware() {
         steps={4}
       >
         <div className="card-grid four">
-          {groups.map(([t, d, img], i) => (
+          {groups.map(([t, d, img, devs], i) => (
             <Step key={t} n={i + 1} className="card hw-group" delay={i * 0.08}>
-              <span className="hw-group-img">
-                <img src={img} alt={t} />
-              </span>
+              {devs ? (
+                <span className="hw-group-img hw-group-trio">
+                  {devs.map(([id, name]) => (
+                    <span key={id} className="hw-trio-item">
+                      <DevicePic id={id} alt={name} size={56} />
+                      <small>{name}</small>
+                    </span>
+                  ))}
+                </span>
+              ) : (
+                <span className="hw-group-img">
+                  <img src={img} alt={t} />
+                </span>
+              )}
               <h3>{t}</h3>
               <p>{d}</p>
             </Step>
@@ -145,10 +156,13 @@ export default function Hardware() {
             <figcaption>Real CPU chips, about the size of a matchbox</figcaption>
           </figure>
           <div className="cpu-hero-facts">
-            {cpuFacts.map(([t, d]) => (
-              <div key={t}>
-                <strong>{t}</strong>
-                <span>{d}</span>
+            {cpuFacts.map(([t, d, id, alt]) => (
+              <div key={t} className="cpu-fact">
+                <img className="cpu-fact-pic" src={pic(id)} alt={alt} loading="lazy" />
+                <span className="cpu-fact-text">
+                  <strong>{t}</strong>
+                  <span>{d}</span>
+                </span>
               </div>
             ))}
           </div>

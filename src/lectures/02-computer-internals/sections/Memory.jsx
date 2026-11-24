@@ -198,36 +198,6 @@ function Arrow({ on, back = false, label }) {
   )
 }
 
-const speeds = [
-  ['RAM', 1, 'about 100 nanoseconds'],
-  ['SSD', 1000, 'about 100,000 nanoseconds'],
-  ['HDD', 100000, 'about 10,000,000 nanoseconds'],
-]
-
-function SpeedRace() {
-  return (
-    <div className="lr-speed">
-      {speeds.map(([name, x, t], i) => (
-        <div key={name} className="lr-speed-row">
-          <strong>{name}</strong>
-          <div className="lr-speed-track">
-            <motion.i
-              initial={{ width: 0 }}
-              whileInView={{ width: `${Math.max(3, (Math.log10(x) / 5) * 100)}%` }}
-              viewport={{ once: true }}
-              transition={{ duration: 1, delay: i * 0.2 }}
-            />
-          </div>
-          <span>
-            {x === 1 ? 'fastest' : `${x.toLocaleString('en-IN')}× slower`}
-            <small>{t}</small>
-          </span>
-        </div>
-      ))}
-    </div>
-  )
-}
-
 /* ================= Sections ================= */
 
 export default function Memory() {
@@ -238,7 +208,7 @@ export default function Memory() {
         id="ram-rom"
         eyebrow="Primary memory"
         title="Primary memory: what the CPU uses directly"
-        intro="Primary memory is memory the CPU can read straight away. There are four kinds. Meet them first, then see how RAM and ROM differ."
+        intro="Primary memory is memory the CPU can read straight away. There are four kinds."
         tone="alt"
         steps={2}
       >
@@ -352,15 +322,15 @@ export default function Memory() {
         id="load-ram"
         eyebrow="Putting memory together"
         title="Why apps load into RAM first"
-        intro="Your apps live on the SSD, but the CPU never runs them from there. Every time you open an app, it is first copied into RAM. Here’s why, and what happens step by step."
+        intro="Apps are stored on the SSD, but the CPU only runs them from RAM. So opening an app means copying it into RAM first. Three reasons why:"
         tone="alt"
         steps={3 + loadSteps.length}
       >
         <div className="card-grid three">
           {[
-            ['🐢', 'Storage is too slow', 'Even a fast SSD is about 1,000 times slower than RAM. The CPU would spend most of its time waiting.'],
-            ['🔌', 'The CPU is wired to RAM', 'The CPU reads RAM directly, byte by byte. Storage is reached through a controller, in big chunks.'],
-            ['📚', 'Keep vs work', 'Storage is the library shelf that keeps every book. RAM is your desk, where you open the ones you’re reading now.'],
+            ['🐢', 'The SSD is too slow', 'RAM is about 1,000× faster. Running apps from the SSD, the CPU would mostly sit waiting.'],
+            ['🔌', 'The CPU talks to RAM directly', 'It can grab any single byte from RAM at once. The SSD only hands over big blocks.'],
+            ['📚', 'Shelf vs desk', 'The SSD is a shelf that keeps every book. RAM is your desk: only what you’re using right now.'],
           ].map(([e, t, d], i) => (
             <Step key={t} n={i + 1} className="card lr-reason" delay={i * 0.08}>
               <span className="lr-emoji" aria-hidden="true">
@@ -371,11 +341,6 @@ export default function Memory() {
             </Step>
           ))}
         </div>
-        <Step n={3}>
-          <h3 className="sub">How much slower? Time to fetch one piece of data</h3>
-          <SpeedRace />
-          <p className="small">1 nanosecond = one billionth of a second. The bars use a log scale: each step is 10 times longer.</p>
-        </Step>
         <Step n={4}>
           <h3 className="sub">Opening Notepad, step by step</h3>
           <LoadDiagram />

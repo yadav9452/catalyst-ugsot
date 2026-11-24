@@ -89,7 +89,7 @@ mark { background: none; color: var(--red); font-weight: 700; }
 .tone-alt { background: var(--alt); }
 .tone-rose { background: var(--rose); }
 .tone-red { background: var(--red); color: #fff; }
-.section-head { max-width: 760px; margin-bottom: 40px; }
+.section-head { margin-bottom: 40px; }
 .section-head h2 { font-size: clamp(32px, 4.2vw, 52px); }
 .eyebrow { font-family: var(--display); font-size: 14px; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; color: var(--red); margin-bottom: 12px; }
 .tone-red .eyebrow { color: #ffe1e3; }
