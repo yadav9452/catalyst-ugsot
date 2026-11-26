@@ -1,36 +1,66 @@
-import { AnimatePresence, motion } from 'framer-motion'
-import { useState } from 'react'
-import { Callout, Reveal, Section, Step } from '../../../design-system'
-import { img } from '../images'
+import { AnimatePresence, motion } from "framer-motion";
+import { useState } from "react";
+import { Callout, Reveal, Section, Step } from "../../../design-system";
+import { img } from "../images";
 
 const table = [
-  ['Speed', 'Fast', 'Slower'],
-  ['Learning', 'Steeper at first', 'Easy'],
-  ['Usage', 'Developers', 'General users'],
-  ['Automation', 'Script it once, rerun anytime', 'Click every time'],
-  ['Remote servers', 'Works over SSH', 'Needs a screen'],
-]
+  ["Speed", "Fast", "Slower"],
+  ["Learning", "Steeper at first", "Easy"],
+  ["Usage", "Developers", "General users"],
+  ["Automation", "Script it once, rerun anytime", "Click every time"],
+  ["Remote servers", "Works over SSH", "Needs a screen"],
+];
 
 /* ---------- A developer's day in the terminal ---------- */
 
 const day = [
-  ['9:00', 'cd ~/projects/portfolio', 'Go to your project folder', []],
-  ['9:01', 'git pull', 'Get your team’s latest code', ['Updating 3f2a1c4..9b7e2d0', ' 2 files changed, 14 insertions(+)']],
-  ['9:02', 'npm install', 'Install the packages the project needs', ['added 214 packages in 6s']],
-  ['9:03', 'npm run dev', 'Start your app on your laptop', ['VITE ready in 312 ms', '➜  Local:   http://localhost:5173/']],
-  ['16:30', 'git commit -m "Add contact form"', 'Save a snapshot of your work', ['[main 4c1d8e2] Add contact form', ' 1 file changed, 42 insertions(+)']],
-  ['17:00', 'ssh student@my-server', 'Log in to a Linux server, with no screen at all', ['Welcome to Ubuntu 24.04 LTS', 'student@my-server:~$']],
-]
+  ["9:00", "cd ~/projects/portfolio", "Go to your project folder", []],
+  [
+    "9:01",
+    "git pull",
+    "Get your team’s latest code",
+    ["Updating 3f2a1c4..9b7e2d0", " 2 files changed, 14 insertions(+)"],
+  ],
+  [
+    "9:02",
+    "npm install",
+    "Install the packages the project needs",
+    ["added 214 packages in 6s"],
+  ],
+  [
+    "9:03",
+    "npm run dev",
+    "Start your app on your laptop",
+    ["VITE ready in 312 ms", "➜  Local:   http://localhost:5173/"],
+  ],
+  [
+    "16:30",
+    'git commit -m "Add contact form"',
+    "Save a snapshot of your work",
+    ["[main 4c1d8e2] Add contact form", " 1 file changed, 42 insertions(+)"],
+  ],
+  [
+    "17:00",
+    "ssh student@my-server",
+    "Log in to a Linux server, with no screen at all",
+    ["Welcome to Ubuntu 24.04 LTS", "student@my-server:~$"],
+  ],
+];
 
 function Day() {
-  const [i, setI] = useState(0)
-  const [time, cmd, what, out] = day[i]
+  const [i, setI] = useState(0);
+  const [time, cmd, what, out] = day[i];
   return (
     <div className="l4-day">
       <ol className="l4-day-list">
         {day.map(([t, c], n) => (
           <li key={c}>
-            <button type="button" className={`${n === i ? 'is-on' : ''} ${n < i ? 'is-done' : ''}`} aria-pressed={n === i} onClick={() => setI(n)}>
+            <button
+              type="button"
+              className={`${n === i ? "is-on" : ""} ${n < i ? "is-done" : ""}`}
+              aria-pressed={n === i}
+              onClick={() => setI(n)}
+            >
               <span className="l4-day-time">{t}</span>
               <code>{c}</code>
             </button>
@@ -47,7 +77,13 @@ function Day() {
           VS Code · Terminal
         </div>
         <AnimatePresence mode="wait">
-          <motion.div key={cmd} className="tty-body" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}>
+          <motion.div
+            key={cmd}
+            className="tty-body"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+          >
             <p className="tty-dim">
               # {time}: {what}
             </p>
@@ -55,23 +91,38 @@ function Day() {
               <span className="tty-prompt">$</span> {cmd}
             </p>
             {out.map((o, n) => (
-              <motion.p key={o} className="tty-out" initial={{ opacity: 0, x: -8 }} animate={{ opacity: 1, x: 0 }} transition={{ delay: 0.3 + n * 0.25 }}>
+              <motion.p
+                key={o}
+                className="tty-out"
+                initial={{ opacity: 0, x: -8 }}
+                animate={{ opacity: 1, x: 0 }}
+                transition={{ delay: 0.3 + n * 0.25 }}
+              >
                 {o}
               </motion.p>
             ))}
           </motion.div>
         </AnimatePresence>
         <div className="l4-day-nav">
-          <button type="button" className="btn btn-ghost btn-sm" onClick={() => setI((x) => Math.max(0, x - 1))} disabled={i === 0}>
+          <button
+            type="button"
+            className="btn btn-ghost btn-sm"
+            onClick={() => setI((x) => Math.max(0, x - 1))}
+            disabled={i === 0}
+          >
             ← Earlier
           </button>
-          <button type="button" className="btn btn-primary btn-sm" onClick={() => setI((x) => (x + 1) % day.length)}>
-            {i === day.length - 1 ? '↺ Start the day again' : 'Later →'}
+          <button
+            type="button"
+            className="btn btn-primary btn-sm"
+            onClick={() => setI((x) => (x + 1) % day.length)}
+          >
+            {i === day.length - 1 ? "↺ Start the day again" : "Later →"}
           </button>
         </div>
       </div>
     </div>
-  )
+  );
 }
 
 export default function DevTerminal() {
@@ -95,7 +146,7 @@ export default function DevTerminal() {
             </thead>
             <tbody>
               {table.map(([f, c, g], i) => (
-                <tr key={f} className={i >= 3 ? 'l4-new-row' : ''}>
+                <tr key={f} className={i >= 3 ? "l4-new-row" : ""}>
                   <th scope="row">{f}</th>
                   <td>{c}</td>
                   <td>{g}</td>
@@ -109,11 +160,14 @@ export default function DevTerminal() {
           <Day />
         </Step>
         <Step n={2}>
-          <Callout>VS Code has a terminal built in: View → Terminal. You’ll keep it open every day from now on.</Callout>
+          <Callout>
+            VS Code has a terminal built in: View → Terminal. You’ll keep it
+            open every day from now on.
+          </Callout>
         </Step>
       </Section>
 
-      <Section id="fhs" eyebrow="A teaser for Lecture 5" title="Where does Linux store everything? It all starts at /" tone="alt">
+      {/* <Section id="fhs" eyebrow="A teaser for Lecture 5" title="Where does Linux store everything? It all starts at /" tone="alt">
         <div className="l4-fhs">
           <Reveal className="l4-fhs-pic">
             <img src={img['fhs-tree']} alt="The Linux folder tree: / at the top, with root, boot, bin, var, etc, media, home, sbin, usr, dev and opt below" />
@@ -139,7 +193,7 @@ export default function DevTerminal() {
             </p>
           </div>
         </div>
-      </Section>
+      </Section> */}
     </>
-  )
+  );
 }

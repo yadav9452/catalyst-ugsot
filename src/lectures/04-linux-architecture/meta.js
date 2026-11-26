@@ -87,4 +87,4 @@ export const quiz = [
   },
 ]
 
-export const nextTeaser = 'Linux File System Structure: explore the directory tree.'
+export const nextTeaser = ''
