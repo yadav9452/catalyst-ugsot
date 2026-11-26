@@ -114,7 +114,7 @@ const tsc = {
     'The window. It shows text and sends your keystrokes on. Examples: Terminal (macOS), Windows Terminal, GNOME Terminal, the VS Code terminal.',
   ],
   shell: ['Shell', 'The program running inside the window (bash, zsh). It shows the prompt and works out what your command means.'],
-  command: ['Command', 'What you type. Here: pwd, which asks “which folder am I in?”'],
+  command: ['Command', 'What you type. Here: pwd, which asks ""which folder am I in?""'],
 }
 
 function Tsc() {
@@ -172,47 +172,51 @@ function Tsc() {
 
 export default function Shell() {
   return (
-    <>
-      <Section id="shell" eyebrow="Part 5 · The shell" title="The shell: the part you’ll use every day" steps={3}>
-        <div className="l4-nut">
-          <Reveal className="l4-nut-pic">
-            <img src={img.nut} alt="A nut: the kernel inside, the shell around it" />
-          </Reveal>
-          <div>
-            <p className="lead">Think of a nut: the shell wraps around the kernel, and you only ever touch the shell.</p>
-            <ul className="l4-ticks">
-              {['Acts as a bridge between you and the kernel', 'Accepts the commands you type', 'Passes them to the kernel to be carried out'].map((t, i) => (
-                <Step as="li" key={t} n={i + 1} delay={i * 0.08}>
-                  {t}
-                </Step>
-              ))}
-            </ul>
-            <p className="l4-shells">
-              Popular shells: <b>bash</b> (most Linux systems) · <b>zsh</b> (the default on macOS)
-            </p>
+    <Section id="shell" eyebrow="Part 5 · The shell" title="The shell: the part you'll use every day" steps={3}>
+      <div className="l4-nut">
+        <Reveal className="l4-nut-pic">
+          <img src={img.nut} alt="A nut: the kernel inside, the shell around it" />
+        </Reveal>
+        <div>
+          <p className="lead">Think of a nut: the shell wraps around the kernel, and you only ever touch the shell.</p>
+          <ul className="l4-ticks">
+            {['Acts as a bridge between you and the kernel', 'Accepts the commands you type', 'Passes them to the kernel to be carried out'].map((t, i) => (
+              <Step as="li" key={t} n={i + 1} delay={i * 0.08}>
+                {t}
+              </Step>
+            ))}
+          </ul>
+          <p className="l4-shells">
+            Popular shells: <b>bash</b> (most Linux systems) · <b>zsh</b> (the default on macOS)
+          </p>
+        </div>
+      </div>
+      <h3 className="sub">What the shell does when you press Enter</h3>
+      <Reveal>
+        <Interpreter />
+      </Reveal>
+      <h3 className="sub">Environment variables the shell keeps for you</h3>
+      <div className="l4-vars">
+        {vars.map(([k, v, d]) => (
+          <div key={k} className="l4-var" tabIndex={0}>
+            <code>{k}</code>
+            <span className="l4-var-val">{v}</span>
+            <small>{d}</small>
           </div>
-        </div>
-        <h3 className="sub">What the shell does when you press Enter</h3>
-        <Reveal>
-          <Interpreter />
-        </Reveal>
-        <h3 className="sub">Environment variables the shell keeps for you</h3>
-        <div className="l4-vars">
-          {vars.map(([k, v, d]) => (
-            <div key={k} className="l4-var" tabIndex={0}>
-              <code>{k}</code>
-              <span className="l4-var-val">{v}</span>
-              <small>{d}</small>
-            </div>
-          ))}
-        </div>
-      </Section>
-      <Section id="terminal" eyebrow="Three words people mix up" title="Terminal vs shell vs command" tone="alt">
-        <Reveal>
-          <Tsc />
-        </Reveal>
-        <Callout>When someone says “open a terminal and run npm install”, they mean: open the window, and let the shell run that command.</Callout>
-      </Section>
-    </>
+        ))}
+      </div>
+    </Section>
+  )
+}
+
+/* Export the terminal clarification as a separate component for reordering */
+export function TerminalClarity() {
+  return (
+    <Section id="terminal" eyebrow="Three words people mix up" title="Terminal vs shell vs command" tone="alt">
+      <Reveal>
+        <Tsc />
+      </Reveal>
+      <Callout>When someone says "open a terminal and run npm install", they mean: open the window, and let the shell run that command.</Callout>
+    </Section>
   )
 }

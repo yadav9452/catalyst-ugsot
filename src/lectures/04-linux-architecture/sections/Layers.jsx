@@ -5,14 +5,16 @@ import { img, img3 } from '../images'
 
 /* ---------- Lecture 3 rings → the precise picture ---------- */
 
-function Precise({ pick, onPick }) {
+const Precise = ({ pick, onPick }) => {
   const box = (k, label, extra = '') => (
     <button type="button" className={`l4-p l4-p-${k} ${extra} ${pick === k ? 'is-on' : ''}`} aria-pressed={pick === k} onClick={() => onPick(k)}>
       {label}
     </button>
   )
+
   return (
     <div className="l4-precise">
+      <StaticArchitectureDiagram />
       {box('you', 'You')}
       <div className="l4-p-us">
         <span className="l4-p-tag">USER SPACE · limited access</span>
@@ -31,14 +33,20 @@ function Precise({ pick, onPick }) {
 }
 
 const info = {
-  you: ['You', 'You give instructions through a GUI (click) or a CLI (type). Both are programs in user space.'],
-  shell: ['Shell', 'A normal program in user space. It reads your command and asks the kernel to run it. It is not a layer between apps and the kernel.'],
-  gui: ['Desktop (GUI)', 'Windows, icons and menus are drawn by a program in user space too (on Ubuntu, GNOME).'],
-  apps: ['Apps', 'Chrome, VS Code and the programs you write. They never touch the hardware directly.'],
-  libs: ['System libraries', 'Ready-made functions (like the C library, glibc) that apps call. They make the system calls for you.'],
-  sys: ['System calls', 'The only door from user space into the kernel. Every file, screen or network request goes through it.'],
-  kernel: ['Kernel', 'The core of Linux. Loaded first at boot. Manages the CPU, memory, devices, files and security.'],
-  hw: ['Hardware', 'The physical parts: CPU, RAM, storage, network card, keyboard, mouse, monitor.'],
+  you: ["You", "You are the person at the keyboard. When you click an icon or type a command, you are telling the computer what to do. Your actions become messages that travel through the layers below. For example, when you click Save in VS Code, that click becomes a request to write a file on disk."],
+  shell: ["Shell (bash, zsh)", "The shell is a program that reads the commands you type and asks the kernel to run them. It lives in user space, just like your browser or editor, and it is not a special barrier. When you type npm install, the shell finds the npm program, asks the kernel to run it, and shows you the result. As a developer, you will spend most of your day typing into a shell."],
+  gui: ["Desktop (GUI)", "The graphical desktop is a program that draws windows, icons, and menus on your screen. When you drag a file to the Trash, the desktop asks the kernel, through system calls, to move that file on disk. It is another user-space program, and the same kernel serves both the desktop and the command line."],
+  apps: ["Apps (Chrome, VS Code)", "Applications are the programs you use every day: your browser, your code editor, the database server you will deploy. They cannot touch the hardware directly. Instead, they call system libraries, which make system calls to the kernel. When your Node.js server listens on port 3000, it is asking the kernel to reserve that network port."],
+  libs: ["System libraries (glibc, etc.)", "Libraries are ready-made tools that applications call to do common jobs. They handle opening files, sending network data, and allocating memory. The C library (glibc) is the most important one, and almost every program uses it. Using a library means the app does not have to know the kernel’s exact rules for every task."],
+  sys: ["System calls", "System calls are the only safe doorway from user space into the kernel. They are a fixed list of requests, such as open() to open a file, read() to read data, write() to save data, and fork() to start a new process. Every program, from ls to your future web server, must use these calls to get anything done."],
+  kernel: ["Kernel", "The kernel is the core of Linux. It is the first program loaded when the computer boots, and it has full control of the hardware. It decides which process runs on which CPU core, hands out memory, and talks to every device: disk, network card, keyboard. Nothing reaches the hardware without the kernel’s permission."],
+  hw: ["Hardware", "The physical parts of the computer: the processor (CPU) that runs instructions, memory (RAM) that holds running programs and data, storage (SSD or HDD) that keeps files when the power is off, the network card that connects to the internet, and the keyboard, mouse, and monitor you use to interact."],
+}
+
+function StaticArchitectureDiagram() {
+  return (
+    <img src={img['screenshot-precise']} alt="Linux architecture: hardware at the bottom, kernel space in the middle with system calls as the interface, and user space at the top containing apps, shell, GUI, and you." />
+  )
 }
 
 function ZoomIn() {
@@ -66,7 +74,7 @@ function ZoomIn() {
             exit={{ opacity: 0, scale: 1.3, filter: 'blur(6px)' }}
           >
             <img src={img.rings} alt="Rings: hardware in the centre, then kernel, shell, application, user" />
-            <figcaption>A good start, but it suggests apps go through the shell. They don’t.</figcaption>
+            <figcaption>A good start, but it suggests apps go through the shell. They don't.</figcaption>
           </motion.figure>
         ) : (
           <motion.div
@@ -185,7 +193,7 @@ export default function Layers() {
       <h3 className="sub">The five layers, from the bottom up</h3>
       <LayerTower />
       <Callout label="Remember">
-        The shell is not a wall between apps and the kernel. It’s one more program in user space, and everything reaches the kernel through system calls.
+        The shell is not a wall between apps and the kernel. It's one more program in user space, and everything reaches the kernel through system calls.
       </Callout>
     </Section>
   )
