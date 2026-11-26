@@ -17,7 +17,6 @@ export default function Lecture() {
       <Kernel />
       <TerminalClarity />
       <Shell />
-
       <HandsOn />
       <DevTerminal />
     </>

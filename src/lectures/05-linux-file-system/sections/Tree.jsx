@@ -58,10 +58,14 @@ function Drives() {
             <span className="l5-drive">media/usb ← your USB stick appears here</span>
           </span>
         </div>
-        <p className="l5-drive-note">
-          <strong>Using WSL on Windows?</strong> Your C: drive is inside the Linux tree at <code>/mnt/c</code>, so <code>cd /mnt/c/Users</code> reaches your
-          Windows files. <strong>On a Mac</strong>, extra drives and USB sticks appear under <code>/Volumes</code>.
-        </p>
+        <ul className="l5-drive-note">
+          <li>
+            <strong>On Windows (WSL):</strong> your C: drive lives inside the Linux tree at <code>/mnt/c</code>, so <code>cd /mnt/c/Users</code> reaches your Windows files.
+          </li>
+          <li>
+            <strong>On a Mac:</strong> extra drives and USB sticks show up under <code>/Volumes</code>.
+          </li>
+        </ul>
       </div>
     </div>
   )

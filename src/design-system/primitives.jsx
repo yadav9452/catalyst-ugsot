@@ -120,10 +120,11 @@ export function Section({ id, eyebrow, title, intro, tone = 'light', steps = 0, 
 /** "As a developer" style callout. */
 export function Callout({ label = 'As a developer', children, step }) {
   const Wrap = step ? Step : Reveal
+  const isText = typeof children === 'string'
   return (
     <Wrap className="callout" delay={0.1} {...(step ? { n: step } : {})}>
       <span className="callout-label">{label}</span>
-      <p>{children}</p>
+      {isText ? <p>{children}</p> : <div className="callout-body">{children}</div>}
     </Wrap>
   )
 }

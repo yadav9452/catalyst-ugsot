@@ -114,10 +114,16 @@ mark { background: none; color: var(--red); font-weight: 700; }
 .card-icon { font-size: 28px; line-height: 1; }
 .mono { font-family: var(--mono); color: var(--red-dark) !important; font-weight: 600; font-size: 15px; }
 
-.callout { margin-top: 32px; display: flex; align-items: center; gap: 20px; background: var(--rose); border-radius: var(--radius); padding: 18px 24px; }
+.callout { margin-top: 32px; display: flex; align-items: center; gap: 20px; background: var(--rose); border-radius: var(--radius); padding: 18px 24px; width: 100%; box-sizing: border-box; }
 .tone-rose .callout, .tone-alt .callout { background: #fff; }
 .callout-label { flex: none; font-family: var(--display); font-weight: 700; font-size: 13px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--red-dark); }
-.callout p { font-size: 18px; }
+.callout p, .callout-body { font-size: 18px; flex: 1; width: 100%; }
+.callout-body {
+  display: grid;
+  gap: 12px;
+  width: 100%;
+}
+.callout-body .l5-bullets { width: 100%; max-width: none; }
 @media (max-width: 600px) { .callout { flex-direction: column; align-items: flex-start; gap: 6px; } }
 .pause-badge { display: inline-block; margin-top: 32px; background: var(--ink); color: #fff; padding: 10px 18px; border-radius: 999px; font-weight: 600; font-size: 15px; }
 .tone-red .pause-badge { background: #fff; color: var(--red-dark); }

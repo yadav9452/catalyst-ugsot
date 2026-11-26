@@ -1,35 +1,68 @@
-import { useState } from 'react'
-import { Callout, OsKeys, PauseBadge, Reveal, Section, Step } from '../../../design-system'
-import { terminalKeys } from '../../../course/shortcuts'
-import { img } from '../images'
-import { HOME, makeFs, run } from './fsSim'
-import Terminal from './Terminal'
+import { useState } from "react";
+import {
+  Callout,
+  OsKeys,
+  PauseBadge,
+  Reveal,
+  Section,
+  Step,
+} from "../../../design-system";
+import { terminalKeys } from "../../../course/shortcuts";
+import { img } from "../images";
+import { HOME, makeFs, run } from "./fsSim";
+import Terminal from "./Terminal";
 
 const three = [
-  ['pwd', 'Where am I?', 'Print working directory: shows the full path of the folder you are in.', '/home/student'],
-  ['cd path', 'Go somewhere', 'Change directory. Give it an absolute or relative path.', 'cd /var/log'],
-  ['ls', 'What’s here?', 'List the files and folders in the current folder (or the one you name).', 'notes.txt  projects/'],
-]
+  [
+    "pwd",
+    "Where am I?",
+    "Print working directory: shows the full path of the folder you are in.",
+    "/home/student",
+  ],
+  [
+    "cd path",
+    "Go somewhere",
+    "Change directory. Give it an absolute or relative path.",
+    "cd /var/log",
+  ],
+  [
+    "ls",
+    "What’s here?",
+    "List the files and folders in the current folder (or the one you name).",
+    "notes.txt  projects/",
+  ],
+];
 
 const cdTricks = [
-  ['cd ..', 'Up one folder'],
-  ['cd ~  or just  cd', 'Home'],
-  ['cd -', 'Back to where you just were'],
-  ['cd /', 'Top of the tree'],
-  ['Tab', 'Complete a name: type cd pro, press Tab'],
-]
+  ["cd ..", "Up one folder"],
+  ["cd ~  or just  cd", "Home"],
+  ["cd -", "Back to where you just were"],
+  ["cd /", "Top of the tree"],
+  ["Tab", "Complete a name: type cd pro, press Tab"],
+];
 
 function LsLab() {
-  const [flags, setFlags] = useState(['l'])
-  const toggle = (f) => setFlags((x) => (x.includes(f) ? x.filter((y) => y !== f) : [...x, f]))
-  const cmd = `ls${flags.length ? ' -' + flags.join('') : ''}`
-  const out = run(cmd, { cwd: HOME, fs: makeFs() }).out
-  const tips = { l: 'long: permissions, owner, size, date', a: 'all: show hidden files (names starting with .)', R: 'recursive: every folder inside, too' }
+  const [flags, setFlags] = useState(["l"]);
+  const toggle = (f) =>
+    setFlags((x) => (x.includes(f) ? x.filter((y) => y !== f) : [...x, f]));
+  const cmd = `ls${flags.length ? " -" + flags.join("") : ""}`;
+  const out = run(cmd, { cwd: HOME, fs: makeFs() }).out;
+  const tips = {
+    l: "long: permissions, owner, size, date",
+    a: "all: show hidden files (names starting with .)",
+    R: "recursive: every folder inside, too",
+  };
   return (
     <div className="l5-ls">
       <div className="l5-ls-ctl">
-        {['l', 'a', 'R'].map((f) => (
-          <button key={f} type="button" className={`l5-chip ${flags.includes(f) ? 'is-on' : ''}`} onClick={() => toggle(f)} aria-pressed={flags.includes(f)}>
+        {["l", "a", "R"].map((f) => (
+          <button
+            key={f}
+            type="button"
+            className={`l5-chip ${flags.includes(f) ? "is-on" : ""}`}
+            onClick={() => toggle(f)}
+            aria-pressed={flags.includes(f)}
+          >
             -{f}
             <small>{tips[f]}</small>
           </button>
@@ -48,32 +81,64 @@ function LsLab() {
           <p className="l5k-cmd">~$ {cmd}</p>
           {out.map((l, i) => (
             <p key={i} className={`l5k-${l.k}`}>
-              {l.t || ' '}
+              {l.t || " "}
             </p>
           ))}
         </div>
       </div>
     </div>
-  )
+  );
 }
 
 const mission = [
-  { label: 'Print where you are now', hint: 'pwd', done: (s) => s.events.some((e) => e.cmd === 'pwd') },
-  { label: 'Go to the top of the tree', hint: 'cd /', done: (s) => s.events.some((e) => e.cwdAfter === '/') },
-  { label: 'List what’s at the top', hint: 'ls', done: (s) => s.events.some((e) => e.cmd === 'ls' && e.cwdBefore === '/' && e.ok) },
-  { label: 'Go into /var (changing data)', hint: 'cd var', done: (s) => s.events.some((e) => e.cwdAfter === '/var') },
-  { label: 'Go into log', hint: 'cd log', done: (s) => s.events.some((e) => e.cwdAfter === '/var/log') },
   {
-    label: 'List the log files in detail',
-    hint: 'ls -l',
-    done: (s) => s.events.some((e) => e.cmd === 'ls' && e.flags.includes('l') && (e.cwdBefore === '/var/log' || e.args.some((a) => a.includes('/var/log')))),
+    label: "Print where you are now",
+    hint: "pwd",
+    done: (s) => s.events.some((e) => e.cmd === "pwd"),
   },
   {
-    label: 'Bonus: read the system log',
-    hint: 'cat syslog',
-    done: (s) => s.events.some((e) => e.cmd === 'cat' && e.ok && e.args.some((a) => a.endsWith('syslog'))),
+    label: "Go to the top of the tree",
+    hint: "cd /",
+    done: (s) => s.events.some((e) => e.cwdAfter === "/"),
   },
-]
+  {
+    label: "List what’s at the top",
+    hint: "ls",
+    done: (s) =>
+      s.events.some((e) => e.cmd === "ls" && e.cwdBefore === "/" && e.ok),
+  },
+  {
+    label: "Go into /var (changing data)",
+    hint: "cd var",
+    done: (s) => s.events.some((e) => e.cwdAfter === "/var"),
+  },
+  {
+    label: "Go into log",
+    hint: "cd log",
+    done: (s) => s.events.some((e) => e.cwdAfter === "/var/log"),
+  },
+  {
+    label: "List the log files in detail",
+    hint: "ls -l",
+    done: (s) =>
+      s.events.some(
+        (e) =>
+          e.cmd === "ls" &&
+          e.flags.includes("l") &&
+          (e.cwdBefore === "/var/log" ||
+            e.args.some((a) => a.includes("/var/log"))),
+      ),
+  },
+  {
+    label: "Bonus: read the system log",
+    hint: "cat syslog",
+    done: (s) =>
+      s.events.some(
+        (e) =>
+          e.cmd === "cat" && e.ok && e.args.some((a) => a.endsWith("syslog")),
+      ),
+  },
+];
 
 export default function Navigate() {
   return (
@@ -128,21 +193,33 @@ export default function Navigate() {
         <Reveal>
           <Terminal
             tasks={mission}
-            welcome={['Mission: find where Linux keeps its log files.', 'Type help for the commands. Tab completes names.']}
+            welcome={[
+              "Mission: find where Linux keeps its log files.",
+              "Type help for the commands. Tab completes names.",
+            ]}
             label="Mission terminal"
           />
         </Reveal>
         <div className="l5-real">
           <figure>
-            <img src={img['root-ls']} alt="A real ls -l of / on an Ubuntu server, with var highlighted" />
-            <figcaption>The same ls -l of / on a real Ubuntu server. Spot var at the bottom.</figcaption>
+            <img
+              src={img["root-ls"]}
+              alt="A real ls -l of / on an Ubuntu server, with var highlighted"
+            />
+            <figcaption>
+              The same ls -l of / on a real Ubuntu server. Spot var at the
+              bottom.
+            </figcaption>
           </figure>
           <Callout label="Try /root">
-            Type cd /root in the practice terminal. Permission denied! Only the root user may go in. More on that in Lecture 6.
+            Type cd /root in the practice terminal. Permission denied! Only the
+            root user may go in.
           </Callout>
         </div>
-        <PauseBadge>Pause the video and complete the mission in your own terminal too.</PauseBadge>
+        <PauseBadge>
+          Pause the video and complete the mission in your own terminal too.
+        </PauseBadge>
       </Section>
     </>
-  )
+  );
 }

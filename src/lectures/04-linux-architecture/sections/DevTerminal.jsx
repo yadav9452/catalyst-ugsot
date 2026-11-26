@@ -1,7 +1,6 @@
 import { AnimatePresence, motion } from "framer-motion";
 import { useState } from "react";
-import { Callout, Reveal, Section, Step } from "../../../design-system";
-import { img } from "../images";
+import { Callout, Section, Step } from "../../../design-system";
 
 const table = [
   ["Speed", "Fast", "Slower"],

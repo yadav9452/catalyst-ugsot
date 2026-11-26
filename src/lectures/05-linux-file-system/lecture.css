@@ -127,7 +127,7 @@
 .l5-ext-view.is-linux .eyebrow { color: #ff8a90; }
 .l5-ext-view.is-linux p:last-child { color: #c4c4cc; }
 .l5-ext-view pre { margin: 0 0 8px; font-family: var(--mono); font-size: 14px; color: #9fdca3; white-space: pre-wrap; word-break: break-word; }
-@media (max-width: 760px) { .l5-ext { grid-template-columns: minmax(0, 1fr); } }
+.l5-ext .callout { grid-column: 1 / -1; width: 100%; }
 
 /* ---------- Tree ---------- */
 .l5-flip { display: grid; grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr); gap: 32px; align-items: center; }
@@ -438,4 +438,9 @@
 .l5-hidden > .l5-seg { justify-self: start; }
 .l5-ops-ctl small { display: block; margin-top: 4px; }
 @media (max-width: 600px) { .l5-redir-own input { flex: 1 1 100%; order: -1; } .l5-redir-own::before { content: "Text to write:"; flex: 1 1 100%; order: -2; font-size: 12px; color: #a8a8b3; } }
+.l5-bullets { list-style: none; margin: 0; padding: 0; display: grid; gap: 6px; width: 100%; max-width: none; }
+.l5-bullets li { display: block; gap: 8px; align-items: flex-start; font-size: 16px; width: 100%; }
+.l5-bullets li::before { content: "•"; color: var(--red); font-weight: 800; flex: none; }
 .l5-drive-note { margin-top: 14px; font-size: 15px; background: var(--rose); border-radius: 12px; padding: 10px 12px; }
+.l5-drive-note li { margin-bottom: 6px; }
+.l5-drive-note li:last-child { margin-bottom: 0; }
